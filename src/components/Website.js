@@ -1,5 +1,5 @@
 import React from 'react';
-import { Breadcrumb, BreadcrumbItem } from "shards-react";
+import { Button,ButtonGroup,Breadcrumb, BreadcrumbItem } from "shards-react";
 
 function Website() {
   return (
@@ -9,6 +9,11 @@ function Website() {
       <BreadcrumbItem>Projects</BreadcrumbItem>
       <BreadcrumbItem>Blog</BreadcrumbItem>
       <BreadcrumbItem>What's New</BreadcrumbItem>
+      <ButtonGroup className="btnGrp" size="small">
+        <Button>1</Button>
+        <Button>2</Button>
+        <Button>3</Button>
+      </ButtonGroup>
     </Breadcrumb>
   );
 }
