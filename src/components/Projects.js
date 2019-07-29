@@ -1,5 +1,5 @@
 import React from 'react';
-import Card from "shards-react";
+import {Card, CardHeader} from "shards-react";
 
 function Projects(){
     return (
