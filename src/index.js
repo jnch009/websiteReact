@@ -8,8 +8,8 @@ import Projects from './components/Projects';
 import * as serviceWorker from './serviceWorker';
 import { Router, Route, Link } from 'react-router-dom';
 
-//ReactDOM.render(<Website />, document.getElementById('root'));
-ReactDOM.render(
+ReactDOM.render(<Website />, document.getElementById('root'));
+/*ReactDOM.render(
     <Router>
       <div>
         <nav>
@@ -27,7 +27,7 @@ ReactDOM.render(
         <Route path="/projects/" component={Projects} />
       </div>
     </Router>,document.getElementById('root')
-);
+);*/
 
 
 // If you want your app to work offline and load faster, you can change

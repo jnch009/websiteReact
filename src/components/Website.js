@@ -1,8 +1,31 @@
 import React from 'react';
+import Projects from './Projects';
 import { Button,ButtonGroup,Breadcrumb, BreadcrumbItem } from "shards-react";
-import { Router, Route, Link, browserHistory, IndexRoute } from 'react-router';
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
-function Website() {
+function RouteTest(){
+  return (
+    <Router>
+      <div>
+        <nav>
+          <ul>
+            <li>
+              <Link to="/">Home</Link>
+            </li>
+            <li>
+              <Link to="/projects/">Projects</Link>
+            </li>
+          </ul>
+        </nav>
+
+        <Route path="/" exact component={Home} />
+        <Route path="/projects/" component={Projects} />
+      </div>
+    </Router>
+  )
+}
+
+function Home() {
   return (
     <div>
       <Breadcrumb>
@@ -25,4 +48,4 @@ function Website() {
   );
 }
 
-export default Website;
+export default RouteTest;
