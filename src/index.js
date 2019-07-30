@@ -5,6 +5,7 @@ import "shards-ui/dist/css/shards.min.css";
 import './index.css';
 import Website from './components/Website';
 import * as serviceWorker from './serviceWorker';
+require('dotenv').config();
 
 ReactDOM.render(<Website />, document.getElementById('root'));
 

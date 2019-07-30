@@ -1,6 +1,8 @@
 import React from 'react';
 import {Card, CardHeader} from "shards-react";
 
+var mysql = require('mysql');
+
 function Projects(){
     return (
         <Card>
