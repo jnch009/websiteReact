@@ -1,5 +1,8 @@
 import React from 'react';
 import Projects from './Projects';
+import Blog from './Blog';
+import News from './News';
+import About from './About';
 import { Button,ButtonGroup,Breadcrumb, BreadcrumbItem } from "shards-react";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
@@ -8,14 +11,17 @@ function RouteTest(){
     <Router>
       <Breadcrumb>
         <BreadcrumbItem><Link to="/">Home</Link></BreadcrumbItem>
-        <BreadcrumbItem>About</BreadcrumbItem>
+        <BreadcrumbItem><Link to="/about/">About</Link></BreadcrumbItem>
         <BreadcrumbItem><Link to="/projects/">Projects</Link></BreadcrumbItem>
-        <BreadcrumbItem>Blog</BreadcrumbItem>
-        <BreadcrumbItem>What's New</BreadcrumbItem>
+        <BreadcrumbItem><Link to="/blog/">Blog</Link></BreadcrumbItem>
+        <BreadcrumbItem><Link to="/news/">What's New</Link></BreadcrumbItem>
       </Breadcrumb>
 
       <Route path="/" exact component={Home} />
+      <Route path="/about/" component={About} />
       <Route path="/projects/" component={Projects} />
+      <Route path="/blog/" component={Blog} />
+      <Route path="/news/" component={News} />
     </Router>
   )
 }
