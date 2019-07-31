@@ -8,9 +8,6 @@ import * as serviceWorker from './serviceWorker';*/
 require('dotenv').config({path:__dirname+'\\credentials.env'});
 var express = require("express");
 var app = express();
-app.get("/url", (req, res, next) => {
-    res.json(["Tony","Lisa","Michael","Ginger","Food"]);
-   });
 
 app.listen(3000, () => {
     console.log("Server running on port 3000");
@@ -28,12 +25,15 @@ var con = mysql.createConnection({
 
 con.connect();
 
-con.query('SELECT * FROM Projects', function (err, tup, fields) {
-    if (err) throw err;
-    console.log(tup);
-  })
-  
-con.end();
+app.get("/projects", (req, res) => {
+    //res.json(["Tony","Lisa","Michael","Ginger","Food"]);
+    con.query('SELECT * FROM Projects', function (err, tup, fields) {
+        if (err) throw err;
+        res.json(tup);
+    })
+});
+
+//con.end();
 
 /*
 ReactDOM.render(<Website />, document.getElementById('root'));
