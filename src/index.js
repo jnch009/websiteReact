@@ -26,12 +26,24 @@ var con = mysql.createConnection({
 con.connect();
 
 app.get("/projects", (req, res) => {
-    //res.json(["Tony","Lisa","Michael","Ginger","Food"]);
     con.query('SELECT * FROM Projects', function (err, tup, fields) {
         if (err) throw err;
         res.json(tup);
     })
 });
+
+const qString = 'SELECT * FROM Projects WHERE Id = ?';
+app.get("/projects/:id", (req, res) => {
+    con.query(qString, [req.params.id], function (err, tup, fields) {
+        if (err) throw err;
+        
+        const projectTitle = tup.map((t) => {
+            return {title: t.Title}
+        })
+        
+        res.json(projectTitle);
+    })
+})
 
 //con.end();
 
