@@ -27,16 +27,16 @@ var con = mysql.createConnection({
 
 con.connect();
 
+var qString = 'SELECT * FROM Projects';
 app.get("/projects", (req, res) => {
-    con.query('SELECT * FROM Projects', function (err, tup, fields) {
+    con.query(qString, function (err, tup, fields) {
         if (err) throw err;
         res.json(tup);
     })
 });
 
-const qString = 'SELECT * FROM Projects WHERE Id = ?';
 app.get("/projects/:id", (req, res) => {
-    con.query(qString, [req.params.id], function (err, tup, fields) {
+    con.query('SELECT * FROM Projects WHERE Id = ?', [req.params.id], function (err, tup, fields) {
         if (err) throw err;
         
         const project = tup.map((t) => {

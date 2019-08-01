@@ -1,7 +1,32 @@
 import React from 'react';
-import {Button, Card, CardHeader} from "shards-react";
+import {Button, Card, CardHeader, CardBody, CardFooter} from "shards-react";
 
 class Projects extends React.Component{
+    constructor(props){
+        super(props);
+        this.state = {
+            projects: []
+        };
+    }
+    
+    componentDidMount(){
+        fetch('http://localhost:3001/projects')
+            .then(res => res.json())
+            .then(
+                (result) => {
+                    result.map(p =>(
+                        this.setState({
+                            projects: this.state.projects.concat(p)
+                        })
+                    ));
+                },
+                (error) => {
+                    console.log(error)
+                }
+            );
+    }
+
+    /* could be used in the future for add a button, but better suited for the blog page*/
     handleClick(){
         var data = {title: 'posting',
                     startDate: '2000-01-01',
@@ -18,13 +43,18 @@ class Projects extends React.Component{
         }).then(res => res.json());
     }
 
-
     render(){
+        //const projects = this.state;
         return (
-            <Card>
-                <CardHeader>This is the Projects Page</CardHeader>
-                <Button onClick={this.handleClick}>Click Me to POST data</Button>
-            </Card>
+            <div> 
+                {this.state.projects.map(project => (
+                    <Card>
+                        <CardHeader>{project.Title}<br/>{project.StartDate}-{project.EndDate}</CardHeader>
+                        <CardBody>{project.Description}</CardBody>
+                        <CardFooter>{project.Author}</CardFooter>
+                    </Card>
+                ))}
+            </div>
         );
     }
 }
