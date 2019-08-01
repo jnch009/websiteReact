@@ -50,7 +50,9 @@ class Projects extends React.Component{
                 {this.state.projects.map(project => (
                     <Card>
                         <CardHeader>{project.Title}<br/>{project.StartDate}-{project.EndDate}</CardHeader>
-                        <CardBody>{project.Description.replace(/\\n/g,"{'\n'}")}</CardBody>
+                        <CardBody>{project.Description.split('\\n').map(x => (
+                            <div>{x}<br/></div>
+                        ))}</CardBody>
                         <CardFooter>{project.Author}</CardFooter>
                     </Card>
                 ))}
