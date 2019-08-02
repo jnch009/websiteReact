@@ -4,6 +4,7 @@ import Blog from './Blog';
 import News from './News';
 import About from './About';
 import Login from './Login';
+import Register from './Register';
 import { Button,ButtonGroup,Breadcrumb, BreadcrumbItem } from "shards-react";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
@@ -28,6 +29,7 @@ function RouteTest(){
       <Route path="/blog/" component={Blog} />
       <Route path="/news/" component={News} />
       <Route path="/login" component={Login} />
+      <Route path="/register" component={Register}/>
     </Router>
   )
 }
