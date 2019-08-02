@@ -15,6 +15,7 @@ function RouteTest(){
         <BreadcrumbItem><Link to="/projects/">Projects</Link></BreadcrumbItem>
         <BreadcrumbItem><Link to="/blog/">Blog</Link></BreadcrumbItem>
         <BreadcrumbItem><Link to="/news/">What's New</Link></BreadcrumbItem>
+        <hr/>
       </Breadcrumb>
 
       <Route path="/" exact component={Home} />
@@ -29,7 +30,6 @@ function RouteTest(){
 function Home() {
   return (
     <div>
-      <hr/>
       <div>This is the home page</div>
     </div>
   );
