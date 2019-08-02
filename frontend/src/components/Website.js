@@ -3,6 +3,7 @@ import Projects from './Projects';
 import Blog from './Blog';
 import News from './News';
 import About from './About';
+import Login from './Login';
 import { Button,ButtonGroup,Breadcrumb, BreadcrumbItem } from "shards-react";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
@@ -15,6 +16,7 @@ function RouteTest(){
         <BreadcrumbItem><Link to="/projects/">Projects</Link></BreadcrumbItem>
         <BreadcrumbItem><Link to="/blog/">Blog</Link></BreadcrumbItem>
         <BreadcrumbItem><Link to="/news/">What's New</Link></BreadcrumbItem>
+        <BreadcrumbItem><Link to="/login/">Login</Link></BreadcrumbItem>
         <hr/>
       </Breadcrumb>
 
@@ -23,6 +25,7 @@ function RouteTest(){
       <Route path="/projects/" component={Projects} />
       <Route path="/blog/" component={Blog} />
       <Route path="/news/" component={News} />
+      <Route path="/login" component={Login} />
     </Router>
   )
 }

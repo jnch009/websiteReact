@@ -12,6 +12,35 @@ code {
     monospace;
 }
 
-/*nav {
-  display: none
-}*/
+nav {
+  /*display: none;*/
+  height: 10vh;
+}
+
+#login {
+  width: 100vw;
+  height: 90vh;
+}
+
+#username{
+  position: absolute;
+  left: 30vw;
+  top: 30vh;
+}
+
+#password{
+  position: absolute;
+  left: 30vw;
+  top: 40vh;
+}
+
+#loginSubmit{
+  position: absolute;
+  left: 30vw;
+  top: 50vh;
+  width: 25%;
+}
+
+input {
+  width: 25vw;
+}
