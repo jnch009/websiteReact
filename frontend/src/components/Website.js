@@ -11,11 +11,13 @@ function RouteTest(){
   return (
     <Router>
       <Breadcrumb>
-        <BreadcrumbItem><Link to="/">Home</Link></BreadcrumbItem>
-        <BreadcrumbItem><Link to="/about/">About</Link></BreadcrumbItem>
-        <BreadcrumbItem><Link to="/projects/">Projects</Link></BreadcrumbItem>
-        <BreadcrumbItem><Link to="/blog/">Blog</Link></BreadcrumbItem>
-        <BreadcrumbItem><Link to="/news/">What's New</Link></BreadcrumbItem>
+        <div class="flex_1">
+          <BreadcrumbItem><Link to="/">Home</Link></BreadcrumbItem>
+          <BreadcrumbItem><Link to="/about/">About</Link></BreadcrumbItem>
+          <BreadcrumbItem><Link to="/projects/">Projects</Link></BreadcrumbItem>
+          <BreadcrumbItem><Link to="/blog/">Blog</Link></BreadcrumbItem>
+          <BreadcrumbItem><Link to="/news/">What's New</Link></BreadcrumbItem>
+        </div><div class="flex_2"></div>
         <BreadcrumbItem><Link to="/login/">Login</Link></BreadcrumbItem>
         <hr/>
       </Breadcrumb>

@@ -44,3 +44,13 @@ nav {
 input {
   width: 25vw;
 }
+
+.flex_1{
+  display: flex;
+  width: 35%;
+}
+
+.flex_2{
+  display: flex;
+  width: 62%;
+}

@@ -1,5 +1,6 @@
 import React from 'react';
 import {Button} from 'shards-react';
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 class Login extends React.Component{
     constructor(props){
@@ -27,6 +28,9 @@ class Login extends React.Component{
                 <div id="username">Username: <br/><input onChange={this.onChangeUsername} name="user" value={this.state.username}></input></div>
                 <div id="password">Password: <br/><input type="password" onChange={this.onChangePassword} name="pass" value={this.state.password}></input></div>
                 <Button id="loginSubmit">Submit</Button>
+                <Router>
+                    <a>Create a new account.</a>
+                </Router>
             </div>
         );
     }
