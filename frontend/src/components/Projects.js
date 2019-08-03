@@ -14,11 +14,9 @@ class Projects extends React.Component{
             .then(res => res.json())
             .then(
                 (result) => {
-                    result.map(p =>(
-                        this.setState({
-                            projects: this.state.projects.concat(p)
-                        })
-                    ));
+                    this.setState({
+                        projects: result
+                    })
                 },
                 (error) => {
                     console.log(error)
@@ -43,13 +41,32 @@ class Projects extends React.Component{
         }).then(res => res.json());
     }
 
+    monthString(monthIndex){
+        var months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+        return (months[monthIndex]);
+    }
+
     render(){
-        //const projects = this.state;
+        this.state.projects.forEach(p => {
+            var newDate = p;
+            var startDate = new Date(newDate.StartDate);
+            var startDateMonth = startDate.getMonth();
+            var startDateYear = startDate.getFullYear();
+            var startDateString = this.monthString(startDateMonth)+" "+startDateYear;
+            newDate.StartDate = startDateString;
+
+            var endDate = new Date(p.EndDate);
+            var endDateMonth = endDate.getMonth();
+            var endDateYear = endDate.getFullYear();
+            var endDateString = this.monthString(endDateMonth)+" "+endDateYear;
+            newDate.EndDate = endDateString;
+        })
+
         return (
             <div> 
                 {this.state.projects.map(project => (
                     <Card>
-                        <CardHeader>{project.Title}<br/>{project.StartDate}-{project.EndDate}</CardHeader>
+                        <CardHeader>{project.Title}<br/>{project.StartDate} - {project.EndDate}</CardHeader>
                         <CardBody>{project.Description.split('\\n').map(x => (
                             <div>{x}<br/></div>
                         ))}</CardBody>
