@@ -65,13 +65,16 @@ class Projects extends React.Component{
         return (
             <div> 
                 {this.state.projects.map(project => (
-                    <Card>
-                        <CardHeader>{project.Title}<br/>{project.StartDate} - {project.EndDate}</CardHeader>
-                        <CardBody>{project.Description.split('\\n').map(x => (
-                            <div>{x}<br/></div>
-                        ))}</CardBody>
-                        <CardFooter>{project.Author}</CardFooter>
-                    </Card>
+                    <div>
+                        <Card>
+                            <CardHeader>{project.Title}<br/>{project.StartDate} ― {project.EndDate}</CardHeader>
+                            <CardBody>{project.Description.split('\\n').map(x => (
+                                <div>{x}<br/></div>
+                            ))}</CardBody>
+                            <CardFooter>{project.Author}</CardFooter>
+                        </Card>
+                        <br/>
+                    </div>
                 ))}
             </div>
         );
