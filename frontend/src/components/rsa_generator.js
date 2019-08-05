@@ -1,6 +1,7 @@
 function generateRSAToken(){
     var primesAndMod = generatePrimes();
     var L =  removeCommonFactors(primesAndMod.prime_1,primesAndMod.prime_2);
+    return coPrime(L,primesAndMod.modulus);
 }
 
 
@@ -57,7 +58,42 @@ function removeCommonFactors(p1, p2){
     return ((p1-1) * (p2-1));
 }
 
+//4 coprime with L and the modulus
+function coPrime(upper, modulus){
+    var publicKey;
+    for (var i = 2; i < upper; i++){
+        if (isCoprime(upper,i) && isCoprime(modulus,i)){
+            publicKey = i;
+            break;
+        }
+    }
+    return publicKey;
+}
+
+function isCoprime(num_1,num_2){
+    if (num_1 < 0 || num_2 < 0){
+        return false;
+    }
+
+    var smaller;
+    if (num_1 <= num_2){
+        smaller = num_1;
+    } else {
+        smaller = num_2;
+    }
+
+    for (var i = 2; i <= smaller; i++){
+        if (num_1 % i == 0 && num_2 % i == 0){
+            return false;
+        }
+    }
+
+    return true;
+}
+
 export default {isPrime, 
                 generatePrimes, 
                 removeCommonFactors,
-                generateRSAToken};
+                generateRSAToken,
+                isCoprime,
+                coPrime};

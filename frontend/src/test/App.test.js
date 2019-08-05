@@ -15,3 +15,27 @@ describe('generate primes', () => {
   });
 });
 
+describe('testing Coprime', () => {
+  it('not coprime', () => {
+    var n1 = 100;
+    var n2 = 200;
+    expect(rsaFn.isCoprime(n1,n2)).toBe(false);
+  })
+
+  it('is coprime', () =>{
+    var n1 = 14;
+    var n2 = 15;
+    expect(rsaFn.isCoprime(n1,n2)).toBe(true);
+  })
+
+  it('negative case', () => {
+    var n1 = -2;
+    var n2 = -5;
+    expect(rsaFn.isCoprime(n1,n2)).toBe(false);
+  })
+
+  it('generate rsa key with coprime', () => {
+    expect(rsaFn.coPrime(6,14)).toBe(5);
+  })
+})
+
