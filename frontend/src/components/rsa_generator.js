@@ -1,5 +1,26 @@
 //1 pick two prime numbers
 
+function isPrime(p){
+    if (p <= 1){
+        return false;
+    } else if (p == 2){
+        return true;
+    }
+
+    let start = 2;
+    let end = Math.sqrt(p);
+
+    while (start < end){
+        if (p % start == 0 || p % end == 0){
+            return false;
+        }
+        start += 1;
+        end -= 1;
+    }
+
+    return true;
+}
+
 function generatePrimes(){
     var prime_1 = -1;
     var prime_2 = -1;
@@ -24,25 +45,11 @@ function generatePrimes(){
     return {"p1": prime_1, "p2": prime_2}
 }
 
-function isPrime(p){
-    if (p <= 1){
-        return false;
-    } else if (p == 2){
-        return true;
-    }
+//2 multiply p and q to get n
 
-    let start = 2;
-    let end = Math.sqrt(p);
-
-    while (start < end){
-        if (p % start == 0 || p % end == 0){
-            return false;
-        }
-        start += 1;
-        end -= 1;
-    }
-
-    return true;
+function generateModulus(){
+    var pq = generatePrimes();
+    return pq.p1 * pq.p2;
 }
 
-export default {isPrime, generatePrimes};
+export default {isPrime, generatePrimes, generateModulus};
