@@ -18,6 +18,13 @@ describe('generate primes', () => {
   })
 });
 
+it('remove the common factors', () => {
+  var p1 = 2;
+  var p2 = 7;
+  var res = 6;
+  expect(rsaFn.removeCommonFactors(p1,p2)).toBe(res);
+})
+
 describe('testing Coprime', () => {
   it('not coprime', () => {
     var n1 = 100;
