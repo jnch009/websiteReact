@@ -4,7 +4,6 @@ function generateRSAToken(){
     return coPrime(L,primesAndMod.modulus);
 }
 
-
 //1 pick two prime numbers
 
 function isPrime(p){

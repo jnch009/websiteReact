@@ -7,12 +7,15 @@ describe('generate primes', () => {
     expect(primes.p2).not.toBe(-1);
   })
 
-  it('testing prime number is being checked', () => {
+  it('testing prime number', () => {
     var primeNumber = 15485863;
-    var nonPrime = 15485864;
     expect(rsaFn.isPrime(primeNumber)).toBe(true);
-    expect(rsaFn.isPrime(nonPrime)).toBe(false);
   });
+
+  it('testing not a prime number', () => {
+    var nonPrime = 15485864;
+    expect(rsaFn.isPrime(nonPrime)).toBe(false);
+  })
 });
 
 describe('testing Coprime', () => {
@@ -38,4 +41,3 @@ describe('testing Coprime', () => {
     expect(rsaFn.coPrime(6,14)).toBe(5);
   })
 })
-
