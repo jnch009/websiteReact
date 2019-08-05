@@ -1,3 +1,9 @@
+function generateRSAToken(){
+    var primesAndMod = generatePrimes();
+    var L =  removeCommonFactors(primesAndMod.prime_1,primesAndMod.prime_2);
+}
+
+
 //1 pick two prime numbers
 
 function isPrime(p){
@@ -47,10 +53,11 @@ function generatePrimes(){
 }
 
 //3 get the length of the no common factors with the modulus between 1 and modulus
-function removeCommonFactors(){
-    
-
+function removeCommonFactors(p1, p2){
+    return ((p1-1) * (p2-1));
 }
 
-
-export default {isPrime, generatePrimes, generateModulus};
+export default {isPrime, 
+                generatePrimes, 
+                removeCommonFactors,
+                generateRSAToken};
