@@ -15,7 +15,3 @@ describe('generate primes', () => {
   });
 });
 
-it('generate modulus', () =>{
-    expect(rsaFn.generateModulus()).toBeGreaterThanOrEqual(1);
-})
-

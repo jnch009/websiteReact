@@ -21,6 +21,7 @@ function isPrime(p){
     return true;
 }
 
+//generate primes and modulus
 function generatePrimes(){
     var prime_1 = -1;
     var prime_2 = -1;
@@ -42,14 +43,14 @@ function generatePrimes(){
         }
     }
 
-    return {"p1": prime_1, "p2": prime_2}
+    return {"p1": prime_1, "p2": prime_2, "modulus": prime_1*prime_2}
 }
 
-//2 multiply p and q to get n
+//3 get the length of the no common factors with the modulus between 1 and modulus
+function removeCommonFactors(){
+    
 
-function generateModulus(){
-    var pq = generatePrimes();
-    return pq.p1 * pq.p2;
 }
+
 
 export default {isPrime, generatePrimes, generateModulus};
