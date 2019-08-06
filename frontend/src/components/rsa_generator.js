@@ -4,7 +4,7 @@ function generateRSAToken(){
     return coPrime(L,primesAndMod.modulus);
 }
 
-//1 pick two prime numbers
+//1 pick two prime numbers (these are private)
 
 function isPrime(p){
     if (p <= 1){
@@ -32,8 +32,8 @@ function generatePrimes(){
     var prime_1 = -1;
     var prime_2 = -1;
     var current;
-    var min = 2; 
-    var max = 1000;
+    var min = 10000; 
+    var max = 50000;
 
     while (prime_1 == -1 || prime_2 == -1){
         if (prime_1 == -1){
