@@ -1,6 +1,7 @@
 import React from 'react';
 import {Button} from 'shards-react';
-import { Link } from "react-router-dom";
+import {Link} from "react-router-dom";
+import {sha256} from 'js-sha256';
 
 class Login extends React.Component{
     constructor(props){
@@ -12,6 +13,7 @@ class Login extends React.Component{
 
         this.onChangeUsername = this.onChangeUsername.bind(this);
         this.onChangePassword = this.onChangePassword.bind(this);
+        this.handleLoginClick = this.handleLoginClick.bind(this);
     }
 
     onChangeUsername(e){
@@ -23,7 +25,19 @@ class Login extends React.Component{
     }
 
     handleLoginClick(){
-
+        var hashed = sha256(this.state.password);
+        var data = {username: this.state.username,
+                    password: hashed};
+        
+        fetch('http://localhost:3001/login/request/',{
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        }).then(res => res.json());
+        
     }
 
     render(){
