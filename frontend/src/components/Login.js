@@ -22,13 +22,17 @@ class Login extends React.Component{
         this.setState({password: e.target.value});
     }
 
+    handleLoginClick(){
+
+    }
+
     render(){
         return(
             <div id="login">
                 <Link id="register" to='/register'>Create a new account</Link>
                 <div id="username">Username: <br/><input onChange={this.onChangeUsername} name="user" value={this.state.username}></input></div>
                 <div id="password">Password: <br/><input type="password" onChange={this.onChangePassword} name="pass" value={this.state.password}></input></div>
-                <Button id="loginSubmit">Submit</Button>
+                <Button id="loginSubmit" onClick={this.handleLoginClick}>Submit</Button>
             </div>
         );
     }

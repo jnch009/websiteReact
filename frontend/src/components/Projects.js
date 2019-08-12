@@ -64,8 +64,10 @@ class Projects extends React.Component{
 
         return (
             <div> 
+                <Button>Add a new project</Button>
                 {this.state.projects.map(project => (
                     <div>
+                        <br/>
                         <Card>
                             <CardHeader>{project.Title}<br/>{project.StartDate} ― {project.EndDate}</CardHeader>
                             <CardBody>{project.Description.split('\\n').map(x => (
@@ -73,7 +75,6 @@ class Projects extends React.Component{
                             ))}</CardBody>
                             <CardFooter>{project.Author}</CardFooter>
                         </Card>
-                        <br/>
                     </div>
                 ))}
             </div>
