@@ -28,7 +28,7 @@ class Login extends React.Component{
         const hashedPwd = sha256(this.state.password);
         const user = this.state.username; 
         
-        fetch('http://localhost:3001/user/${user}/pass/${hashedPwd}')
+        fetch(`http://localhost:3001/user/${user}/pass/${hashedPwd}`)
             .then(res => res.json())
             .then(
                 (result) => {
