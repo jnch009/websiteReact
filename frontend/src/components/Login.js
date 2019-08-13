@@ -25,18 +25,19 @@ class Login extends React.Component{
     }
 
     handleLoginClick(){
-        var hashed = sha256(this.state.password);
-        var data = {username: this.state.username,
-                    password: hashed};
+        const hashedPwd = sha256(this.state.password);
+        const user = this.state.username; 
         
-        fetch('http://localhost:3001/login/request/',{
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        }).then(res => res.json());
+        fetch('http://localhost:3001/user/${user}/pass/${hashedPwd}')
+            .then(res => res.json())
+            .then(
+                (result) => {
+                    console.log(result)
+                },
+                (error) => {
+                    console.log(error)
+                }
+            );
         
     }
 

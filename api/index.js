@@ -56,3 +56,9 @@ app.post("/projects/add", (req, res) => {
            res.end(JSON.stringify(results));
     });
 });
+
+app.get("/user/:uid/pass/:pwd", (req, res) => {
+    con.query('SELECT * FROM Users WHERE Username = ? && Password = ?', [req.params.uid,req.params.pwd], function (err, tup, fields) {
+            
+    })
+})
