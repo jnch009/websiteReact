@@ -19,7 +19,7 @@ class HandlerGenerator {
       let username = req.body.username;
       let password = req.body.password;
 
-      con.query(`SELECT * FROM Users WHERE Username = ${username} && Password = ${password}`, function (err, tup) {
+      con.query('SELECT * FROM Users WHERE Username = ? && Password = ?',[username,password], function (err, tup) {
             if (err){
                 res.send(400).json({
                     success: false,
