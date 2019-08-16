@@ -19,7 +19,7 @@ function RouteTest(){
           <BreadcrumbItem><Link to="/blog/">Blog</Link></BreadcrumbItem>
           <BreadcrumbItem><Link to="/news/">What's New</Link></BreadcrumbItem>
         </div><div class="flex_2"></div>
-        <BreadcrumbItem><Link to="/login/">Login</Link></BreadcrumbItem>
+        <BreadcrumbItem><Link to="/signin/">Login</Link></BreadcrumbItem>
         <hr/>
       </Breadcrumb>
 
@@ -28,7 +28,7 @@ function RouteTest(){
       <Route path="/projects/" component={Projects} />
       <Route path="/blog/" component={Blog} />
       <Route path="/news/" component={News} />
-      <Route path="/login" component={Login} />
+      <Route path="/signin" component={Login} />
       <Route path="/register" component={Register}/>
     </Router>
   )
