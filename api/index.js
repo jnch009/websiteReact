@@ -5,42 +5,50 @@ var cors = require("cors");
 let jwt = require('jsonwebtoken');
 let config = require('./config');
 let middleware = require('./middleware');
+var mysql = require('mysql');
+var con = mysql.createConnection({
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASS,
+    database: process.env.DB_SCHEMA,
+    port: process.env.DB_PORT
+});
 
 class HandlerGenerator {
     login (req, res) {
       let username = req.body.username;
       let password = req.body.password;
-      // For the given username fetch user from DB
-      let mockedUsername = 'admin';
-      let mockedPassword = 'password';
-  
-      if (username && password) {
-        if (username === mockedUsername && password === mockedPassword) {
-          let token = jwt.sign({username: username},
-            config.secret,
-            { expiresIn: '24h' // expires in 24 hours
+
+      con.query(`SELECT * FROM Users WHERE Username = ${username} && Password = ${password}`, function (err, tup) {
+            if (err){
+                res.send(400).json({
+                    success: false,
+                    message: 'Authentication failed! Please check the request'
+                  });
             }
-          );
-          // return the JWT token for the future API calls
-          res.json({
-            success: true,
-            message: 'Authentication successful!',
-            token: token
-          });
-        } else {
-          res.send(403).json({
-            success: false,
-            message: 'Incorrect username or password'
-          });
-        }
-      } else {
-        res.send(400).json({
-          success: false,
-          message: 'Authentication failed! Please check the request'
-        });
-      }
+            if (JSON.stringify(tup) == "[]"){
+                res.send(403).json({
+                    success: false,
+                    message: 'Incorrect username or password'
+                });
+            } else {
+                let token = jwt.sign({username: username},
+                    config.secret,
+                    { expiresIn: '24h' // expires in 24 hours
+                    }
+                  );
+                  // return the JWT token for the future API calls
+                  res.json({
+                    success: true,
+                    message: 'Authentication successful!',
+                    token: token
+                  });
+            }
+      });
     }
+
     index (req, res) {
+      console.log(req.decoded);
       res.json({
         success: true,
         message: 'Index page'
@@ -63,19 +71,11 @@ function main(){
         console.log("Server running on port 3001");
     });
 
-    var mysql = require('mysql');
-    var con = mysql.createConnection({
-        host: process.env.DB_HOST,
-        user: process.env.DB_USER,
-        password: process.env.DB_PASS,
-        database: process.env.DB_SCHEMA,
-        port: process.env.DB_PORT
-    });
+    con.connect();
 
     let handlers = new HandlerGenerator();
     app.post('/login', handlers.login);
-
-    con.connect();
+    app.get('/',middleware.checkToken,handlers.index);
 
     var qString = 'SELECT * FROM Projects';
     app.get("/projects", (req, res) => {
