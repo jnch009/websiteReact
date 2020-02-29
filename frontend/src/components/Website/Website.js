@@ -36,9 +36,6 @@ function Website() {
         </Breadcrumb>
 
         <Switch>
-          <Route path="/">
-            <Home />
-          </Route>
           <Route path="/about">
             <About />
           </Route>
@@ -50,6 +47,9 @@ function Website() {
           </Route>
           <Route path="/login">
             <Login />
+          </Route>
+          <Route path="/">
+            <Home />
           </Route>
         </Switch>
       </Router>
