@@ -3,7 +3,7 @@ import "./Website.css";
 import Projects from "../Projects";
 import Blog from "../Blog";
 import Home from "../Home/Home.js";
-import About from "../About";
+import About from "../About/About";
 import Login from "../Login";
 import Register from "../Register";
 import { Button, ButtonGroup, Breadcrumb, BreadcrumbItem } from "shards-react";

@@ -1,10 +1,11 @@
 import React from "react";
+import "./About.css";
 
-function Blog() {
+function About() {
   return (
     <div class="pageContainer pageContainer__flexCenter">
       <h1 class="center">
-        Blog
+        About Me
         <br />
         <div class="comingSoonContainer">
           <h5>Coming Soon</h5>
@@ -14,4 +15,4 @@ function Blog() {
   );
 }
 
-export default Blog;
+export default About;
