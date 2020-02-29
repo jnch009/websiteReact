@@ -2,9 +2,10 @@ import React from "react";
 import "./Home.css";
 
 function Home() {
+  const gridLabels = ['About', 'Tekken 7', 'Blog'];
   const gridItems = [];
-  for (let i = 0; i < 3; i++) {
-    gridItems.push(<div class="homeGrid"></div>);
+  for (let lbl of gridLabels) {
+    gridItems.push(<div class="homeGrid"><h1>{lbl}</h1></div>);
   }
 
   return <div class="flexContainer">{gridItems}</div>;
