@@ -9,10 +9,12 @@
 }
 
 .homeGrid{
-    display: grid;
+    width: calc(100% / 3);
+    height: 100%;
 }
 
 .flexContainer{
     display: flex;
     flex-direction: row;
+    height: 100%;
 }
