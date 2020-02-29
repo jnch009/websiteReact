@@ -42,7 +42,7 @@ function Home() {
   }
 
   return (
-    <div>
+    <div class="flexContainer">
       {gridItems}
     </div>
   );

@@ -11,3 +11,8 @@
 .homeGrid{
     display: grid;
 }
+
+.flexContainer{
+    display: flex;
+    flex-direction: row;
+}
