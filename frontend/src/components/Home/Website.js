@@ -47,5 +47,6 @@ function Home() {
     </div>
   );
 }
+// transition: <property> <duration> <timing-function> <delay>;
 
 export default Home;
