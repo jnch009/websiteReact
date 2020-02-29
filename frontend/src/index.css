@@ -17,11 +17,6 @@ code {
     monospace;
 }
 
-nav {
-  /*display: none;*/
-  height: 10vh;
-}
-
 #login {
   width: 100vw;
   height: 90vh;
