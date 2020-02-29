@@ -1,0 +1,13 @@
+.flex_1 {
+    display: flex;
+    width: 35%;
+}
+  
+.flex_2 {
+    display: flex;
+    width: 60%;
+}
+
+.homeGrid{
+    display: grid;
+}
