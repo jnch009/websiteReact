@@ -7,7 +7,7 @@ import About from "../About";
 import Login from "../Login";
 import Register from "../Register";
 import { Button, ButtonGroup, Breadcrumb, BreadcrumbItem } from "shards-react";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 
 function Home() {
   const gridItems = [];
@@ -17,27 +17,38 @@ function Home() {
 
   return (
     <div class="pageContainer">
-        <Breadcrumb>
-          <div class="flex_1">
-            <BreadcrumbItem>
-              Home
-            </BreadcrumbItem>
-            <BreadcrumbItem>
-              About
-            </BreadcrumbItem>
-            <BreadcrumbItem>
-              Accomplishments
-            </BreadcrumbItem>
-            <BreadcrumbItem>
-              Blog
-            </BreadcrumbItem>
-          </div>
-          <div class="flex_2"></div>
-          <BreadcrumbItem>
-            Login
-          </BreadcrumbItem>
-          <hr />
-        </Breadcrumb>
+      <Router>
+          <Breadcrumb>
+            <div class="flex_1">
+              <BreadcrumbItem>
+                <Link to="/">Home</Link>
+              </BreadcrumbItem>
+              <BreadcrumbItem>
+                <Link to="/about">About</Link>
+              </BreadcrumbItem>
+              <BreadcrumbItem><Link to="/projects">Accomplishments</Link></BreadcrumbItem>
+              <BreadcrumbItem><Link to="/blog">Blog</Link></BreadcrumbItem>
+            </div>
+            <div class="flex_2"></div>
+            <BreadcrumbItem><Link to="/projects">Login</Link></BreadcrumbItem>
+            <hr />
+          </Breadcrumb>
+
+          <Switch>
+            <Route path="/about">
+              <About />
+            </Route>
+            <Route path="/projects">
+              <Projects />
+            </Route>
+            <Route path="/blog">
+              <Blog />
+            </Route>
+            <Route path="/login">
+              <Login />
+            </Route>
+          </Switch>
+      </Router>
       <div class="flexContainer">{gridItems}</div>
     </div>
   );
