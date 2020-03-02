@@ -5,6 +5,7 @@ let jwt = require("jsonwebtoken");
 let config = require("./config");
 let middleware = require("./middleware");
 var mysql = require("mysql");
+var path = require("path");
 var con = mysql.createConnection({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
@@ -12,6 +13,7 @@ var con = mysql.createConnection({
   database: process.env.DB_SCHEMA,
   port: process.env.DB_PORT
 });
+const dotEnvPath = path.resolve(process.cwd(), 'credentials.env');
 
 // class HandlerGenerator {
 //     login (req, res) {
@@ -59,8 +61,7 @@ function main() {
   var app = express();
   var session = require("express-session");
   var randomSecret = require("randomstring");
-  var dotenv = require("dotenv");
-  dotenv.config();
+  var dotenv = require("dotenv").config({path: dotEnvPath});
 
   var sess = {
     secret: randomSecret.generate(),
