@@ -13,7 +13,7 @@ var con = mysql.createConnection({
   database: process.env.DB_SCHEMA,
   port: process.env.DB_PORT
 });
-const dotEnvPath = path.resolve(process.cwd(), 'credentials.env');
+const dotEnvPath = path.resolve(process.cwd(), "credentials.env");
 
 // class HandlerGenerator {
 //     login (req, res) {
@@ -61,7 +61,7 @@ function main() {
   var app = express();
   var session = require("express-session");
   var randomSecret = require("randomstring");
-  var dotenv = require("dotenv").config({path: dotEnvPath});
+  var dotenv = require("dotenv").config({ path: dotEnvPath });
 
   var sess = {
     secret: randomSecret.generate(),
