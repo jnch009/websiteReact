@@ -1,11 +1,13 @@
 var express = require("express");
 var bodyParser = require("body-parser");
 var cors = require("cors");
-let jwt = require("jsonwebtoken");
-let config = require("./config");
-let middleware = require("./middleware");
+// let jwt = require("jsonwebtoken");
+// let config = require("./config");
+// let middleware = require("./middleware");
 var mysql = require("mysql");
 var path = require("path");
+var passport = require("passport");
+var Auth0Strategy = require("passport-auth0");
 var con = mysql.createConnection({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
@@ -89,6 +91,36 @@ function main() {
     })
   );
   app.use(session(sess));
+
+  // Configure Passport to use Auth0
+  var strategy = new Auth0Strategy(
+    {
+      domain: process.env.AUTH0_DOMAIN,
+      clientID: process.env.AUTH0_CLIENT_ID,
+      clientSecret: process.env.AUTH0_CLIENT_SECRET,
+      callbackURL: process.env.AUTH0_CALLBACK_URL || "http://localhost:3000/"
+    },
+    function(accessToken, refreshToken, extraParams, profile, done) {
+      // accessToken is the token to call Auth0 API (not needed in the most cases)
+      // extraParams.id_token has the JSON Web Token
+      // profile has all the information from the user
+      return done(null, profile);
+    }
+  );
+
+  passport.use(strategy);
+
+  app.use(passport.initialize());
+  app.use(passport.session());
+
+  // You can use this section to keep a smaller payload
+  passport.serializeUser(function(user, done) {
+    done(null, user);
+  });
+
+  passport.deserializeUser(function(user, done) {
+    done(null, user);
+  });
 
   app.listen(3001, () => {
     console.log("Server running on port 3001");
