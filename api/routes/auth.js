@@ -4,6 +4,7 @@ var passport = require("passport");
 var util = require("util");
 var url = require("url");
 var querystring = require("querystring");
+var path = require("path");
 const dotEnvPath = path.resolve(process.cwd(), "credentials.env");
 var dotenv = require("dotenv").config({ path: dotEnvPath });
 

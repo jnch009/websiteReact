@@ -126,6 +126,9 @@ function main() {
     console.log("Server running on port 3001");
   });
 
+  var authRouter = require('./routes/auth');
+  app.use('/', authRouter);
+
   // con.connect();
 
   // // let handlers = new HandlerGenerator();
