@@ -126,62 +126,62 @@ function main() {
     console.log("Server running on port 3001");
   });
 
-  con.connect();
+  // con.connect();
 
-  // let handlers = new HandlerGenerator();
-  // app.post('/login', handlers.login);
-  // app.get('/',middleware.checkToken,handlers.index);
+  // // let handlers = new HandlerGenerator();
+  // // app.post('/login', handlers.login);
+  // // app.get('/',middleware.checkToken,handlers.index);
 
-  var qString = "SELECT * FROM Projects";
-  app.get("/projects", (req, res) => {
-    con.query(qString, function(err, tup, fields) {
-      if (err) throw err;
-      res.json(tup);
-    });
-  });
+  // var qString = "SELECT * FROM Projects";
+  // app.get("/projects", (req, res) => {
+  //   con.query(qString, function(err, tup, fields) {
+  //     if (err) throw err;
+  //     res.json(tup);
+  //   });
+  // });
 
-  app.get("/projects/:id", (req, res) => {
-    con.query("SELECT * FROM Projects WHERE Id = ?", [req.params.id], function(
-      err,
-      tup,
-      fields
-    ) {
-      if (err) throw err;
+  // app.get("/projects/:id", (req, res) => {
+  //   con.query("SELECT * FROM Projects WHERE Id = ?", [req.params.id], function(
+  //     err,
+  //     tup,
+  //     fields
+  //   ) {
+  //     if (err) throw err;
 
-      const project = tup.map(t => {
-        return { title: t.Title, author: t.Author };
-      });
+  //     const project = tup.map(t => {
+  //       return { title: t.Title, author: t.Author };
+  //     });
 
-      res.json(project);
-    });
-  });
+  //     res.json(project);
+  //   });
+  // });
 
-  app.post("/projects/add", (req, res) => {
-    var postData = req.body;
-    con.query(
-      "INSERT INTO Projects SET ?",
-      postData,
-      (error, results, fields) => {
-        if (error) throw error;
-        res.end(JSON.stringify(results));
-      }
-    );
-  });
+  // app.post("/projects/add", (req, res) => {
+  //   var postData = req.body;
+  //   con.query(
+  //     "INSERT INTO Projects SET ?",
+  //     postData,
+  //     (error, results, fields) => {
+  //       if (error) throw error;
+  //       res.end(JSON.stringify(results));
+  //     }
+  //   );
+  // });
 
-  app.get("/user/:uid/pass/:pwd", (req, res) => {
-    con.query(
-      "SELECT * FROM Users WHERE Username = ? && Password = ?",
-      [req.params.uid, req.params.pwd],
-      function(err, tup, fields) {
-        if (err) throw error;
-        if (JSON.stringify(tup) != "[]") {
-          res.json(true);
-        } else {
-          res.json(false);
-        }
-      }
-    );
-  });
+  // app.get("/user/:uid/pass/:pwd", (req, res) => {
+  //   con.query(
+  //     "SELECT * FROM Users WHERE Username = ? && Password = ?",
+  //     [req.params.uid, req.params.pwd],
+  //     function(err, tup, fields) {
+  //       if (err) throw error;
+  //       if (JSON.stringify(tup) != "[]") {
+  //         res.json(true);
+  //       } else {
+  //         res.json(false);
+  //       }
+  //     }
+  //   );
+  // });
 }
 
 main();
