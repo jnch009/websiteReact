@@ -1,13 +1,15 @@
 import React from "react";
-import "./Website.css";
-import Projects from "../Projects";
+import { Link, Route, BrowserRouter as Router, Switch } from "react-router-dom";
+import { Breadcrumb, BreadcrumbItem, Button, ButtonGroup } from "shards-react";
+
+import About from "../About/About";
 import Blog from "../Blog";
 import Home from "../Home/Home.js";
-import About from "../About/About";
 import Login from "../Login";
+import Projects from "../Projects";
 import Register from "../Register";
-import { Button, ButtonGroup, Breadcrumb, BreadcrumbItem } from "shards-react";
-import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
+
+import "./Website.css";
 
 function Website() {
   return (
@@ -30,7 +32,7 @@ function Website() {
           </div>
           <div class="flex_2"></div>
           <BreadcrumbItem>
-            <Link to="/login">Login</Link>
+            <a href="http://localhost:3001/login">Login</a>
           </BreadcrumbItem>
           <hr />
         </Breadcrumb>
