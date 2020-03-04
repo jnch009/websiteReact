@@ -20,7 +20,7 @@ router.get(
 );
 
 // Perform the final stage of authentication and redirect to previously requested URL or '/user'
-router.get("/", function(req, res, next) {
+router.get("/callback", function(req, res, next) {
   passport.authenticate("auth0", function(err, user, info) {
     if (err) {
       return next(err);
@@ -34,7 +34,7 @@ router.get("/", function(req, res, next) {
       }
       const returnTo = req.session.returnTo;
       delete req.session.returnTo;
-      res.redirect(returnTo || "/");
+      res.redirect(returnTo || "/profile");
     });
   })(req, res, next);
 });
