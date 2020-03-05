@@ -6,17 +6,17 @@ import About from "../About/About";
 import Blog from "../Blog";
 import Home from "../Home/Home.js";
 import Login from "../Login";
-import Projects from "../Projects";
-import Register from "../Register";
+import Profile from "../Profile/Profile.js";
+import Projects from "../Projects"
 
 import "./Website.css";
 
 function Website() {
   return (
-    <div class="pageContainer">
+    <div className="pageContainer">
       <Router>
         <Breadcrumb>
-          <div class="flex_1">
+          <div className="flex_1">
             <BreadcrumbItem>
               <Link to="/">Home</Link>
             </BreadcrumbItem>
@@ -49,6 +49,9 @@ function Website() {
           </Route>
           <Route path="/login">
             <Login />
+          </Route>
+          <Route path="/profile">
+            <Profile />
           </Route>
           <Route path="/">
             <Home />

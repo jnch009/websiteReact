@@ -7,10 +7,18 @@ class Profile extends React.Component {
   }
 
   componentWillMount() {
-    fetch("http://localhost:3001/profile").then(results => {
-      return results.json();
-    }).then(data => {
+    fetch("http://localhost:3001/profile",{credentials: "include"})
+      .then(results => {
+        return results.json();
+      })
+      .then(data => {
         console.log(data);
-    });
+      });
+  }
+
+  render() {
+    return <div></div>;
   }
 }
+
+export default Profile;
