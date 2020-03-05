@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button} from "shards-react";
+import { Button } from "shards-react";
 
 class Register extends React.Component{
     constructor(props){

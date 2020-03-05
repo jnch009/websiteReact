@@ -3,11 +3,11 @@ import "./About.css";
 
 function About() {
   return (
-    <div class="pageContainer pageContainer__flexCenter">
-      <h1 class="center">
+    <div className="pageContainer pageContainer__flexCenter">
+      <h1 className="center">
         About Me
         <br />
-        <div class="comingSoonContainer">
+        <div className="comingSoonContainer">
           <h5>Coming Soon</h5>
         </div>
       </h1>

@@ -5,7 +5,6 @@ import { Breadcrumb, BreadcrumbItem, Button, ButtonGroup } from "shards-react";
 import About from "../About/About";
 import Blog from "../Blog";
 import Home from "../Home/Home.js";
-import Login from "../Login";
 import Profile from "../Profile/Profile.js";
 import Projects from "../Projects"
 
@@ -30,7 +29,7 @@ function Website() {
               <Link to="/blog">Blog</Link>
             </BreadcrumbItem>
           </div>
-          <div class="flex_2"></div>
+          <div className="flex_2"></div>
           <BreadcrumbItem>
             <a href="http://localhost:3001/login">Login</a>
           </BreadcrumbItem>
@@ -46,9 +45,6 @@ function Website() {
           </Route>
           <Route path="/blog">
             <Blog />
-          </Route>
-          <Route path="/login">
-            <Login />
           </Route>
           <Route path="/profile">
             <Profile />
