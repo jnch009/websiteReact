@@ -1,0 +1,10 @@
+.profileStyling{
+    height: 100%;
+    padding: 10em;
+}
+
+.profilePic{
+    height: 400px;
+    width: 400px;
+    border-radius: 25em;
+}

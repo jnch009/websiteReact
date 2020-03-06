@@ -1,4 +1,5 @@
 import React from "react";
+import "./Profile.css";
 
 class Profile extends React.Component {
   constructor(props) {
@@ -14,11 +15,11 @@ class Profile extends React.Component {
         return results.json();
       })
       .then(data => {
-        const { id, displayName, nickname, picture } = JSON.parse(
+        const { id, picture, displayName, nickname, emails } = JSON.parse(
           data.userProfile
         );
         this.setState({
-          profileData: { id, displayName, nickname, picture }
+          profileData: { id, picture, displayName, nickname, emails }
         });
       });
   }
@@ -27,17 +28,26 @@ class Profile extends React.Component {
     const profileArray = Object.keys(this.state.profileData).map((i, index) => {
       if (i !== "id") {
         if (i === "picture") {
-          return <img className="profilePic" src={this.state.profileData[i]}></img>;
+          return (
+            <img key={index} className="profilePic" src={this.state.profileData[i]}></img>
+          );
+        } else if (i === "displayName") {
+          return (
+            <div key={index}>
+              <h1>{this.state.profileData[i]}</h1>
+            </div>
+          );
+        } else if (i === "emails") {
+          return (
+            <div key={index}>
+              <h6>{this.state.profileData[i][0].value}</h6>
+            </div>
+          );
         }
-        return <div key={index}>{this.state.profileData[i]}</div>;
       }
     });
 
-    return (
-      <div className="profileStyling">
-        {profileArray}
-      </div>
-    );
+    return <div className="profileStyling">{profileArray}</div>;
   }
 }
 
