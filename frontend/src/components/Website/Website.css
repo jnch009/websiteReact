@@ -13,15 +13,18 @@
   overflow-y: hidden;
 }
 
-@media (max-width: 865px) {
-  .breadcrumb {
-    height: 61px;
-  }
+.breadcrumb {
+  margin: 0;
+  width: 100%;
 }
 
-@media (max-width: 1160px) {
+@media (max-width: 900px) {
   .breadcrumb {
-    width: 898px;
+    width: 910px;
+  }
+
+  .flexContainer{
+    width: 910px;
   }
 }
 
@@ -36,8 +39,4 @@
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-.breadcrumb {
-  margin: 0;
 }
