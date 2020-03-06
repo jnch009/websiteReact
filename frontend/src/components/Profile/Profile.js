@@ -9,17 +9,31 @@ class Profile extends React.Component {
   }
 
   componentWillMount() {
-    fetch("http://localhost:3001/profile",{credentials: "include"})
+    fetch("http://localhost:3001/profile", { credentials: "include" })
       .then(results => {
         return results.json();
       })
       .then(data => {
-        console.log(data);
+        const { id, displayName, name, emails, nickname, picture } = JSON.parse(
+          data.userProfile
+        );
+        this.setState({
+          profileData: { id, displayName, name, emails, nickname, picture }
+        });
       });
   }
 
   render() {
-    return <div></div>;
+    const listID = this.state.profileData.id;
+    return (
+      <div>
+        <ul>
+          <div key={listID}><h1>{this.state.profileData.displayName}</h1></div>
+          <div key={listID}><h5>{this.state.profileData.nickname}</h5></div>
+          <img src={this.state.profileData.picture}></img>
+        </ul>
+      </div>
+    );
   }
 }
 

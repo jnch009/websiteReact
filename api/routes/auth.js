@@ -34,7 +34,7 @@ router.get("/callback", function(req, res, next) {
       }
       const returnTo = req.session.returnTo;
       delete req.session.returnTo;
-      res.redirect(returnTo || "/profile");
+      res.redirect(returnTo || "http://localhost:3000/");
     });
   })(req, res, next);
 });
