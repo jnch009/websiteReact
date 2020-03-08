@@ -16,3 +16,11 @@
     flex-direction: row;
     height: 100%;
 }
+
+.aboutCSS{
+    background-color: green;
+}
+
+.tekkenCSS{
+    background-color: red;
+}

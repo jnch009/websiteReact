@@ -4,10 +4,18 @@ import "./Home.css";
 
 function Home() {
   const sID = require("shortid");
-  const gridLabels = ['About', 'Tekken 7', 'Blog'];
+  const classNames = require("classnames");
+  const gridLabels = ["About", "Tekken 7", "Blog"];
+  const gridCSS = ["aboutCSS", "tekkenCSS", "blogCSS"];
   const gridItems = [];
-  for (let lbl of gridLabels) {
-    gridItems.push(<div className="homeGrid" key={sID.generate()}><h1>{lbl}</h1></div>);
+
+  for (let [i, lbl] of gridLabels.entries()) {
+    let cssComponent = classNames("homeGrid", gridCSS[i]);
+    gridItems.push(
+      <div className={cssComponent} key={sID.generate()}>
+        <h1>{lbl}</h1>
+      </div>
+    );
   }
 
   return <div className="flexContainer">{gridItems}</div>;
