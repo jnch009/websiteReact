@@ -84,10 +84,8 @@ function main() {
     console.log("Server running on port 3001");
   });
 
-  // var userInViews = require("./lib/middleware/userInViews");
   var authRouter = require("./routes/auth");
   var usersRouter = require("./routes/users");
-  // app.use(userInViews());
   app.use("/", authRouter);
   app.use("/", usersRouter);
   // con.connect();
