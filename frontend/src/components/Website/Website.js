@@ -12,7 +12,6 @@ import Projects from "../Projects";
 import "./Website.css";
 
 function Website() {
-  const [loggedIn, setLoggedIn] = useState(false);
   const { isAuthenticated, loginWithRedirect, logout } = useAuth0();
 
   useEffect(() => {
@@ -45,8 +44,8 @@ function Website() {
           </div>
           <div className="flex_2"></div>
           <BreadcrumbItem>
-            {loggedIn ? (
-              <a href="/profile">Profile</a>
+            {isAuthenticated ? (
+              <Link to="/logout">Logout</Link>
             ) : (
               <Link to="/login">Login</Link>
             )}
@@ -68,6 +67,7 @@ function Website() {
             <Profile />
           </Route>
           <Route path="/login">{() => loginWithRedirect({})}</Route>
+          <Route path="/logout">{() => logout({})}</Route>
           <Route path="/">
             <Home />
           </Route>
