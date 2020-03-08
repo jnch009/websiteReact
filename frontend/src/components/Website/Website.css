@@ -43,3 +43,9 @@ ol.breadcrumb {
   justify-content: center;
   align-items: center;
 }
+
+.loadingIndicator {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

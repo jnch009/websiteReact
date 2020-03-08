@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect } from "react";
+import React, { Component, useEffect, useState } from "react";
 import { Link, Route, BrowserRouter as Router, Switch } from "react-router-dom";
 import { Breadcrumb, BreadcrumbItem, Button, ButtonGroup } from "shards-react";
 
@@ -12,17 +12,11 @@ import Projects from "../Projects";
 import "./Website.css";
 
 function Website() {
-  const { isAuthenticated, loginWithRedirect, logout } = useAuth0();
-
-  useEffect(() => {
-    fetch("http://localhost:3001/profile", { credentials: "include" })
-      .then(() => {
-        this.setState({ loggedIn: true });
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  });
+  const { isAuthenticated, loginWithRedirect, logout, loading } = useAuth0();
+  const classNames = require('classnames');
+  if (loading) {
+    return <div className={classNames('loadingIndicator','pageContainer')}>Loading...</div>;
+  }
 
   return (
     <div className="pageContainer">
