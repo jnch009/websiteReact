@@ -16,49 +16,6 @@ var con = mysql.createConnection({
   port: process.env.DB_PORT
 });
 const dotEnvPath = path.resolve(process.cwd(), "credentials.env");
-
-// class HandlerGenerator {
-//     login (req, res) {
-//       let username = req.body.username;
-//       let password = req.body.password;
-
-//       con.query('SELECT * FROM Users WHERE Username = ? && Password = ?',[username,password], function (err, tup) {
-//             if (err){
-//                 res.send(400).json({
-//                     success: false,
-//                     message: 'Authentication failed! Please check the request'
-//                   });
-//             }
-//             if (JSON.stringify(tup) == "[]"){
-//                 res.send(403).json({
-//                     success: false,
-//                     message: 'Incorrect username or password'
-//                 });
-//             } else {
-//                 let token = jwt.sign({username: username},
-//                     config.secret,
-//                     { expiresIn: '24h' // expires in 24 hours
-//                     }
-//                   );
-//                   // return the JWT token for the future API calls
-//                   res.json({
-//                     success: true,
-//                     message: 'Authentication successful!',
-//                     token: token
-//                   });
-//             }
-//       });
-//     }
-
-//     index (req, res) {
-//       console.log(req.decoded);
-//       res.json({
-//         success: true,
-//         message: 'Index page'
-//       });
-//     }
-//   }
-
 function main() {
   var app = express();
   var session = require("express-session");
@@ -98,7 +55,8 @@ function main() {
       domain: process.env.AUTH0_DOMAIN,
       clientID: process.env.AUTH0_CLIENT_ID,
       clientSecret: process.env.AUTH0_CLIENT_SECRET,
-      callbackURL: process.env.AUTH0_CALLBACK_URL || 'http://localhost:3001/callback'
+      callbackURL:
+        process.env.AUTH0_CALLBACK_URL || "http://localhost:3001/callback"
     },
     function(accessToken, refreshToken, extraParams, profile, done) {
       // accessToken is the token to call Auth0 API (not needed in the most cases)
