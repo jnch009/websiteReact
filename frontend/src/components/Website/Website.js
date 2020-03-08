@@ -13,9 +13,14 @@ import "./Website.css";
 
 function Website() {
   const { isAuthenticated, loginWithRedirect, logout, loading } = useAuth0();
-  const classNames = require('classnames');
+  const classNames = require("classnames");
+
   if (loading) {
-    return <div className={classNames('loadingIndicator','pageContainer')}>Loading...</div>;
+    return (
+      <div className={classNames("loadingIndicator", "pageContainer")}>
+        Loading...
+      </div>
+    );
   }
 
   return (
@@ -34,6 +39,9 @@ function Website() {
             </BreadcrumbItem>
             <BreadcrumbItem>
               <Link to="/blog">Blog</Link>
+            </BreadcrumbItem>
+            <BreadcrumbItem>
+              {isAuthenticated ? <Link to="/profile">Profile</Link> : null}
             </BreadcrumbItem>
           </div>
           <div className="flex_2"></div>
