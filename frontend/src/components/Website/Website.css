@@ -13,8 +13,11 @@
   overflow-y: hidden;
 }
 
-.breadcrumb {
+ol.breadcrumb {
   margin: 0;
+}
+
+.breadcrumb {
   width: 100%;
 }
 

@@ -28,7 +28,7 @@ function Website() {
   return (
     <div className="pageContainer">
       <Router>
-        <Breadcrumb className="breadcrumb">
+        <Breadcrumb>
           <div className="flex_1">
             <BreadcrumbItem>
               <Link to="/">Home</Link>
