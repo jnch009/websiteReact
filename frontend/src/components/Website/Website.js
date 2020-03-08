@@ -56,23 +56,13 @@ function Website() {
         </Breadcrumb>
 
         <Switch>
-          <Route path="/about">
-            <About />
-          </Route>
-          <Route path="/projects">
-            <Projects />
-          </Route>
-          <Route path="/blog">
-            <Blog />
-          </Route>
-          <Route path="/profile">
-            <Profile />
-          </Route>
-          <Route path="/login">{() => loginWithRedirect({})}</Route>
-          <Route path="/logout">{() => logout({})}</Route>
-          <Route path="/">
-            <Home />
-          </Route>
+          <Route path="/about" component={About} />
+          <Route path="/projects" component={Projects} />
+          <Route path="/blog" component={Blog} />
+          <Route path="/profile" component={Profile} />
+          <Route path="/login" component={() => loginWithRedirect({})} />
+          <Route path="/logout" component={() => logout({})} />
+          <Route path="/" component={Home} />
         </Switch>
       </Router>
     </div>
