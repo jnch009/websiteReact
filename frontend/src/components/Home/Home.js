@@ -12,15 +12,15 @@ function Home() {
   const gridItems = [];
 
   for (let [i, lbl] of gridLabels.entries()) {
-    let cssComponent = classNames("homeGrid", gridCSS[i]);
+    let cssComponent = classNames("homeGrid", "homePageLinks", gridCSS[i]);
     let gridRedirect = gridRedirects[i];
 
     gridItems.push(
-      <div key={sID.generate()} className={cssComponent}>
-        <h1>
-          <a className="homePageLinks" href={gridRedirect}>{lbl}</a>
-        </h1>
-      </div>
+      <a className={cssComponent} href={gridRedirect}>
+        <div key={sID.generate()}>
+          <h1>{lbl}</h1>
+        </div>
+      </a>
     );
   }
 
