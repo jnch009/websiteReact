@@ -1,7 +1,8 @@
-import React, { Component } from "react";
+import React, { Component, useState, useEffect } from "react";
 import { Link, Route, BrowserRouter as Router, Switch } from "react-router-dom";
 import { Breadcrumb, BreadcrumbItem, Button, ButtonGroup } from "shards-react";
 
+import { useAuth0 } from "../../react-auth0-spa";
 import About from "../About/About";
 import Blog from "../Blog";
 import Home from "../Home/Home.js";
@@ -10,13 +11,11 @@ import Projects from "../Projects";
 
 import "./Website.css";
 
-class Website extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { loggedIn: false };
-  }
+function Website() {
+  const [loggedIn, setLoggedIn] = useState(false);
+  const { isAuthenticated, loginWithRedirect, logout } = useAuth0();
 
-  componentDidMount() {
+  useEffect(() => {
     fetch("http://localhost:3001/profile", { credentials: "include" })
       .then(() => {
         this.setState({ loggedIn: true });
@@ -24,59 +23,58 @@ class Website extends Component {
       .catch(error => {
         console.log(error);
       });
-  }
+  });
 
-  render() {
-    return (
-      <div className="pageContainer">
-        <Router>
-          <Breadcrumb>
-            <div className="flex_1">
-              <BreadcrumbItem>
-                <Link to="/">Home</Link>
-              </BreadcrumbItem>
-              <BreadcrumbItem>
-                <Link to="/about">About</Link>
-              </BreadcrumbItem>
-              <BreadcrumbItem>
-                <Link to="/projects">Accomplishments</Link>
-              </BreadcrumbItem>
-              <BreadcrumbItem>
-                <Link to="/blog">Blog</Link>
-              </BreadcrumbItem>
-            </div>
-            <div className="flex_2"></div>
+  return (
+    <div className="pageContainer">
+      <Router>
+        <Breadcrumb>
+          <div className="flex_1">
             <BreadcrumbItem>
-              {this.state.loggedIn ? (
-                <a href="/profile">Profile</a>
-              ) : (
-                <a href="http://localhost:3001/login">Login</a>
-              )}
+              <Link to="/">Home</Link>
             </BreadcrumbItem>
-            <hr />
-          </Breadcrumb>
+            <BreadcrumbItem>
+              <Link to="/about">About</Link>
+            </BreadcrumbItem>
+            <BreadcrumbItem>
+              <Link to="/projects">Accomplishments</Link>
+            </BreadcrumbItem>
+            <BreadcrumbItem>
+              <Link to="/blog">Blog</Link>
+            </BreadcrumbItem>
+          </div>
+          <div className="flex_2"></div>
+          <BreadcrumbItem>
+            {loggedIn ? (
+              <a href="/profile">Profile</a>
+            ) : (
+              <a href="/login">Login</a>
+            )}
+          </BreadcrumbItem>
+          <hr />
+        </Breadcrumb>
 
-          <Switch>
-            <Route path="/about">
-              <About />
-            </Route>
-            <Route path="/projects">
-              <Projects />
-            </Route>
-            <Route path="/blog">
-              <Blog />
-            </Route>
-            <Route path="/profile">
-              <Profile />
-            </Route>
-            <Route path="/">
-              <Home />
-            </Route>
-          </Switch>
-        </Router>
-      </div>
-    );
-  }
+        <Switch>
+          <Route path="/about">
+            <About />
+          </Route>
+          <Route path="/projects">
+            <Projects />
+          </Route>
+          <Route path="/blog">
+            <Blog />
+          </Route>
+          <Route path="/profile">
+            <Profile />
+          </Route>
+          <Route path="/login">{loginWithRedirect({})}</Route>
+          <Route path="/">
+            <Home />
+          </Route>
+        </Switch>
+      </Router>
+    </div>
+  );
 }
 // transition: <property> <duration> <timing-function> <delay>;
 
