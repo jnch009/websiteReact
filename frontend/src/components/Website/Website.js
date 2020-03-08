@@ -28,7 +28,7 @@ function Website() {
   return (
     <div className="pageContainer">
       <Router>
-        <Breadcrumb>
+        <Breadcrumb className="breadcrumb">
           <div className="flex_1">
             <BreadcrumbItem>
               <Link to="/">Home</Link>
@@ -48,7 +48,7 @@ function Website() {
             {loggedIn ? (
               <a href="/profile">Profile</a>
             ) : (
-              <a href="/login">Login</a>
+              <Link to="/login">Login</Link>
             )}
           </BreadcrumbItem>
           <hr />
@@ -67,7 +67,7 @@ function Website() {
           <Route path="/profile">
             <Profile />
           </Route>
-          <Route path="/login">{loginWithRedirect({})}</Route>
+          <Route path="/login">{() => loginWithRedirect({})}</Route>
           <Route path="/">
             <Home />
           </Route>
