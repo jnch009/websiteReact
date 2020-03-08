@@ -7,13 +7,19 @@ function Home() {
   const classNames = require("classnames");
   const gridLabels = ["About", "Tekken 7", "Blog"];
   const gridCSS = ["aboutCSS", "tekkenCSS", "blogCSS"];
+  const gridRedirects = ["/about", "/projects", "/blog"];
+
   const gridItems = [];
 
   for (let [i, lbl] of gridLabels.entries()) {
     let cssComponent = classNames("homeGrid", gridCSS[i]);
+    let gridRedirect = gridRedirects[i];
+
     gridItems.push(
-      <div className={cssComponent} key={sID.generate()}>
-        <h1>{lbl}</h1>
+      <div key={sID.generate()} className={cssComponent}>
+        <h1>
+          <a className="homePageLinks" href={gridRedirect}>{lbl}</a>
+        </h1>
       </div>
     );
   }

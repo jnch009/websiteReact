@@ -1,26 +1,34 @@
-.homeGrid{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: calc(100% / 3);
-    height: 100%;
-    transition: background-color 1s;
+.homeGrid {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: calc(100% / 3);
+  height: 100%;
+  transition: background-color 1s;
 }
 
-.homeGrid:hover{
-    background-color: darkgray;
+.homeGrid:hover {
+  background-color: darkgray;
 }
 
-.flexContainer{
-    display: flex;
-    flex-direction: row;
-    height: 100%;
+.flexContainer {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
 }
 
-.aboutCSS{
-    background-color: green;
+.aboutCSS {
+  background-color: green;
 }
 
-.tekkenCSS{
-    background-color: red;
+.tekkenCSS {
+  background-color: red;
+}
+
+a.homePageLinks {
+  color: inherit;
+}
+
+a.homePageLinks:hover {
+  text-decoration: none;
 }
