@@ -7,6 +7,7 @@ import history from "../../utils/history";
 import About from "../About/About";
 import Blog from "../Blog";
 import Home from "../Home/Home.js";
+import PrivateRoute from "../PrivateRoute";
 import Profile from "../Profile/Profile.js";
 import Projects from "../Projects";
 
@@ -62,7 +63,7 @@ function Website() {
           <Route path="/about" component={About} />
           <Route path="/projects" component={Projects} />
           <Route path="/blog" component={Blog} />
-          <Route path="/profile" component={Profile} />
+          <PrivateRoute path="/profile" component={Profile} />
           <Route path="/login" component={() => loginWithRedirect({})} />
           <Route path="/logout" component={() => logout({})} />
           <Route path="/" component={Home} />
