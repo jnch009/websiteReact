@@ -1,8 +1,9 @@
 import React, { Component, useEffect, useState } from "react";
-import { Link, Route, BrowserRouter as Router, Switch } from "react-router-dom";
+import { Link, Route, Router, Switch } from "react-router-dom";
 import { Breadcrumb, BreadcrumbItem, Button, ButtonGroup } from "shards-react";
 
 import { useAuth0 } from "../../react-auth0-spa";
+import history from "../../utils/history";
 import About from "../About/About";
 import Blog from "../Blog";
 import Home from "../Home/Home.js";
@@ -25,7 +26,7 @@ function Website() {
 
   return (
     <div className="pageContainer">
-      <Router>
+      <Router history={history}>
         <Breadcrumb>
           <div className="flex_1">
             <BreadcrumbItem>
@@ -40,9 +41,11 @@ function Website() {
             <BreadcrumbItem>
               <Link to="/blog">Blog</Link>
             </BreadcrumbItem>
-            <BreadcrumbItem>
-              {isAuthenticated ? <Link to="/profile">Profile</Link> : null}
-            </BreadcrumbItem>
+            {isAuthenticated ? (
+              <BreadcrumbItem>
+                <Link to="/profile">Profile</Link>
+              </BreadcrumbItem>
+            ) : null}
           </div>
           <div className="flex_2"></div>
           <BreadcrumbItem>
