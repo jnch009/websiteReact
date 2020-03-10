@@ -4,6 +4,7 @@ var cors = require("cors");
 // let jwt = require("jsonwebtoken");
 // let config = require("./config");
 // let middleware = require("./middleware");
+var https = require("https");
 var mysql = require("mysql");
 var path = require("path");
 var passport = require("passport");
@@ -88,6 +89,25 @@ function main() {
   var usersRouter = require("./routes/users");
   app.use("/", authRouter);
   app.use("/", usersRouter);
+
+  app.get("/getUsers", (req, res) => {
+    const options = {
+      hostname: "jnch009.auth0.com",
+      headers: {
+        Authorization: "Bearer <MGMT_API_ACCESS_TOKEN>"
+      },
+      path: "/api/v2/users"
+    };
+    let resulting = https.request(options, res => {
+      res.setEncoding("utf8");
+      res.on("data", function(body) {
+        console.log(JSON.parse(body)[0]["app_metadata"]["roles"][0]);
+      });
+    });
+
+    resulting.end();
+  });
+
   // con.connect();
 
   // // let handlers = new HandlerGenerator();
