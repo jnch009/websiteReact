@@ -4,6 +4,7 @@ var cors = require("cors");
 // let jwt = require("jsonwebtoken");
 // let config = require("./config");
 // let middleware = require("./middleware");
+var querystring = require("querystring");
 var https = require("https");
 var mysql = require("mysql");
 var path = require("path");
@@ -90,18 +91,47 @@ function main() {
   app.use("/", authRouter);
   app.use("/", usersRouter);
 
+  app.get("/getAccessToken", (req, res) => {
+    var postData = querystring.stringify({
+      grant_type: "client_credentials",
+      client_id: process.env.AUTH0_CLIENT_ID,
+      client_secret: process.env.AUTH0_CLIENT_SECRET,
+      audience: "https://jnch009.auth0.com/api/v2/"
+    });
+
+    var options = {
+      method: "POST",
+      hostname: "jnch009.auth0.com",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        "Content-Length": Buffer.byteLength(postData)
+      },
+      path: "/oauth/token"
+    };
+
+    var resulting = https.request(options, res => {
+      res.setEncoding("utf8");
+      res.on("data", function(body) {
+        process.env.AUTH0_ACCESS_TOKEN = JSON.parse(body)["access_token"];
+      });
+    });
+
+    resulting.write(postData);
+    resulting.end();
+  });
+
   app.get("/getUsers", (req, res) => {
     const options = {
       hostname: "jnch009.auth0.com",
       headers: {
-        Authorization: "Bearer <MGMT_API_ACCESS_TOKEN>"
+        Authorization: `Bearer ${process.env.AUTH0_ACCESS_TOKEN}`
       },
       path: "/api/v2/users"
     };
     let resulting = https.request(options, res => {
       res.setEncoding("utf8");
       res.on("data", function(body) {
-        console.log(JSON.parse(body)[0]["app_metadata"]["roles"][0]);
+        console.log(JSON.parse(body));
       });
     });
 
