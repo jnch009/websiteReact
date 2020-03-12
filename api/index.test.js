@@ -12,4 +12,4 @@ test("Testing getUsers", async done => {
   const get = await request.get("/getUsers");
   expect(get.status).toBe(200);
   done();
-}, 99999);
+});
