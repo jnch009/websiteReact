@@ -89,8 +89,7 @@ app.use("/", authRouter);
 app.use("/", usersRouter);
 
 let getAccessToken = (req, res, next) => {
-  // should fail need to write a test
-  if (process.env.AUTH0_ACCESS_TOKEN === "") {
+  if (process.env.AUTH0_ACCESS_TOKEN !== "") {
     next();
   }
 
@@ -225,7 +224,7 @@ app.get("/getUsers/:id", getAccessToken, (req, res) => {
 // });
 
 //main();
-if (process.env.NODE_ENV !== "test") {
+if (app.get("env") !== "test") {
   app.listen(3001, () => {
     console.log("Server running on port 3001");
   });
