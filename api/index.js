@@ -91,7 +91,7 @@ function main() {
   app.use("/", authRouter);
   app.use("/", usersRouter);
 
-  app.get("/getAccessToken", (req, res) => {
+  let getAccessToken = (req, res, next) => {
     var postData = querystring.stringify({
       grant_type: "client_credentials",
       client_id: process.env.AUTH0_CLIENT_ID,
@@ -114,13 +114,19 @@ function main() {
       res.on("data", function(body) {
         process.env.AUTH0_ACCESS_TOKEN = JSON.parse(body)["access_token"];
       });
+
+      res.on("end", () => {
+        resulting.end();
+        next();
+      });
     });
 
+    // Why am I doing this?
+    // Because I need to write to the buffer that was created in Content - Length
     resulting.write(postData);
-    resulting.end();
-  });
+  };
 
-  app.get("/getUsers", (req, res) => {
+  app.get("/getUsers", getAccessToken, (req, res) => {
     const options = {
       hostname: "jnch009.auth0.com",
       headers: {
