@@ -162,6 +162,9 @@ app.get("/getUsers/:id", getAccessToken, (req, res) => {
       console.log(JSON.parse(body));
     });
   });
+
+  resulting.end();
+  res.end();
 });
 
 //   resulting.end();

@@ -13,3 +13,10 @@ test("Testing getUsers", async done => {
   expect(get.status).toBe(200);
   done();
 });
+
+test("Test fail getting user", async done => {
+  const id = "123";
+  const get = await request.get("/getUsers/" + id);
+  expect(get.status).toBe(404);
+  done();
+});
