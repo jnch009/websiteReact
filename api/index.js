@@ -144,6 +144,7 @@ app.get("/getUsers", getAccessToken, (req, res) => {
   });
 
   resulting.end();
+  res.end();
 });
 
 //Get a specific user
@@ -230,4 +231,7 @@ if (app.get("env") !== "test") {
   });
 }
 
-exports.getAccessToken = getAccessToken;
+module.exports = {
+  app: app,
+  getAccessToken: getAccessToken
+};
