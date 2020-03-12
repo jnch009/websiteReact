@@ -92,6 +92,10 @@ function main() {
   app.use("/", usersRouter);
 
   let getAccessToken = (req, res, next) => {
+    if (process.env.AUTH0_ACCESS_TOKEN === "") {
+      return;
+    }
+
     var postData = querystring.stringify({
       grant_type: "client_credentials",
       client_id: process.env.AUTH0_CLIENT_ID,
