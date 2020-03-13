@@ -11,11 +11,11 @@ var path = require("path");
 var passport = require("passport");
 var Auth0Strategy = require("passport-auth0");
 var con = mysql.createConnection({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASS,
-  database: process.env.DB_SCHEMA,
-  port: process.env.DB_PORT
+  host: process.env.LOCAL_DB_HOST,
+  user: process.env.LOCAL_DB_USER,
+  password: process.env.LOCAL_DB_PASS,
+  database: process.env.LOCAL_DB_SCHEMA,
+  port: process.env.LOCAL_DB_PORT
 });
 const dotEnvPath = path.resolve(process.cwd(), "credentials.env");
 
@@ -87,6 +87,7 @@ var authRouter = require("./routes/auth");
 var usersRouter = require("./routes/users");
 app.use("/", authRouter);
 app.use("/", usersRouter);
+con.connect(() => {});
 
 let getAccessToken = (req, res, next) => {
   let jwtDecode;
@@ -129,6 +130,11 @@ let getAccessToken = (req, res, next) => {
   // Because I need to write to the buffer that was created in Content - Length
   resulting.write(postData);
 };
+
+app.post("/setAccessToken", (req, res) => {
+  let params = req.body.uid;
+  res.status(200).end();
+});
 
 //Get all users
 app.get("/getUsers", getAccessToken, (req, res) => {
