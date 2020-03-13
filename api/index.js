@@ -1,7 +1,7 @@
 var express = require("express");
 var bodyParser = require("body-parser");
 var cors = require("cors");
-// let jwt = require("jsonwebtoken");
+let jwt = require("jsonwebtoken");
 // let config = require("./config");
 // let middleware = require("./middleware");
 var querystring = require("querystring");
@@ -89,6 +89,8 @@ app.use("/", authRouter);
 app.use("/", usersRouter);
 
 let getAccessToken = (req, res, next) => {
+  let jwtDecode;
+
   if (process.env.AUTH0_ACCESS_TOKEN !== "") {
     next();
   }
@@ -113,6 +115,7 @@ let getAccessToken = (req, res, next) => {
   var resulting = https.request(options, res => {
     res.setEncoding("utf8");
     res.on("data", function(body) {
+      jwtDecode = jwt.decode(JSON.parse(body)["access_token"]);
       process.env.AUTH0_ACCESS_TOKEN = JSON.parse(body)["access_token"];
     });
 
