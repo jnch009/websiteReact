@@ -13,6 +13,8 @@ import Projects from "../Projects";
 
 import "./Website.css";
 
+const classNames = require("classnames");
+
 function Website() {
   const {
     isAuthenticated,
@@ -21,7 +23,6 @@ function Website() {
     loading,
     user
   } = useAuth0();
-  const classNames = require("classnames");
 
   useEffect(() => {
     if (isAuthenticated && user) {

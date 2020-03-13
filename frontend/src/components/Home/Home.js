@@ -1,17 +1,16 @@
 import React from "react";
 
-const sID = require("shortid");
-const classNames = require("classnames");
-
 import "./Home.css";
 
+const sID = require("shortid");
+const classNames = require("classnames");
+const gridLabels = ["About", "Tekken 7", "Blog"];
+const gridCSS = ["aboutCSS", "tekkenCSS", "blogCSS"];
+const gridRedirects = ["/about", "/projects", "/blog"];
+let gridItems;
+
 function Home() {
-  const gridLabels = ["About", "Tekken 7", "Blog"];
-  const gridCSS = ["aboutCSS", "tekkenCSS", "blogCSS"];
-  const gridRedirects = ["/about", "/projects", "/blog"];
-
-  const gridItems = [];
-
+  gridItems = [];
   for (let [i, lbl] of gridLabels.entries()) {
     let cssComponent = classNames("homeGrid", "homePageLinks", gridCSS[i]);
     let gridRedirect = gridRedirects[i];
