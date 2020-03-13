@@ -1,10 +1,11 @@
 import React from "react";
 
+const sID = require("shortid");
+const classNames = require("classnames");
+
 import "./Home.css";
 
 function Home() {
-  const sID = require("shortid");
-  const classNames = require("classnames");
   const gridLabels = ["About", "Tekken 7", "Blog"];
   const gridCSS = ["aboutCSS", "tekkenCSS", "blogCSS"];
   const gridRedirects = ["/about", "/projects", "/blog"];
