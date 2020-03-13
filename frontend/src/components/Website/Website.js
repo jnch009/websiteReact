@@ -16,29 +16,7 @@ import "./Website.css";
 const classNames = require("classnames");
 
 function Website() {
-  const {
-    isAuthenticated,
-    loginWithRedirect,
-    logout,
-    loading,
-    user
-  } = useAuth0();
-
-  useEffect(() => {
-    if (isAuthenticated && user) {
-      const body = {
-        uid: user.sub
-      };
-      fetch("http://localhost:3001/setAccessToken", {
-        method: "POST",
-        headers: {
-          Accept: "text/html",
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(body)
-      });
-    }
-  });
+  const { isAuthenticated, loginWithRedirect, logout, loading } = useAuth0();
 
   if (loading) {
     return (
