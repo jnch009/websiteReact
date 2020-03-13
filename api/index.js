@@ -10,13 +10,6 @@ var mysql = require("mysql");
 var path = require("path");
 var passport = require("passport");
 var Auth0Strategy = require("passport-auth0");
-var con = mysql.createConnection({
-  host: process.env.LOCAL_DB_HOST,
-  user: process.env.LOCAL_DB_USER,
-  password: process.env.LOCAL_DB_PASS,
-  database: process.env.LOCAL_DB_SCHEMA,
-  port: process.env.LOCAL_DB_PORT
-});
 const dotEnvPath = path.resolve(process.cwd(), "credentials.env");
 
 // function main() {
@@ -24,6 +17,13 @@ var app = express();
 var session = require("express-session");
 var randomSecret = require("randomstring");
 var dotenv = require("dotenv").config({ path: dotEnvPath });
+var con = mysql.createConnection({
+  host: process.env.LOCAL_DB_HOST,
+  user: process.env.LOCAL_DB_USER,
+  password: process.env.LOCAL_DB_PASS,
+  database: process.env.LOCAL_DB_SCHEMA,
+  port: process.env.LOCAL_DB_PORT
+});
 
 var sess = {
   secret: randomSecret.generate(),
@@ -90,8 +90,6 @@ app.use("/", usersRouter);
 con.connect(() => {});
 
 let getAccessToken = (req, res, next) => {
-  let jwtDecode;
-
   if (process.env.AUTH0_ACCESS_TOKEN !== "") {
     next();
   }
@@ -113,14 +111,17 @@ let getAccessToken = (req, res, next) => {
     path: "/oauth/token"
   };
 
-  var resulting = https.request(options, res => {
-    res.setEncoding("utf8");
+  let resulting = https.request(options, res => {
+    //res.setEncoding("utf8");
+    let data = "";
+
     res.on("data", function(body) {
-      jwtDecode = jwt.decode(JSON.parse(body)["access_token"]);
       process.env.AUTH0_ACCESS_TOKEN = JSON.parse(body)["access_token"];
+      data += body;
     });
 
     res.on("end", () => {
+      req.jwtDecode = JSON.parse(data);
       resulting.end();
       next();
     });
@@ -131,8 +132,17 @@ let getAccessToken = (req, res, next) => {
   resulting.write(postData);
 };
 
-app.post("/setAccessToken", (req, res) => {
+app.post("/setAccessToken", getAccessToken, (req, res) => {
   let params = req.body.uid;
+  let { access_token } = req.jwtDecode;
+  let { exp, iat } = jwt.decode(access_token);
+  let qString =
+    "INSERT INTO users(access_token,iat,exp,user_id) VALUES(?,?,?,?)";
+  let query = con.query(qString, [access_token, iat, exp, params], error => {
+    if (error) {
+      return error;
+    }
+  });
   res.status(200).end();
 });
 
