@@ -90,6 +90,8 @@ app.use("/", usersRouter);
 con.connect(() => {});
 
 let getAccessToken = (req, res, next) => {
+  // This if statement needs to be refactored
+  // with a SQL query instead
   if (process.env.AUTH0_ACCESS_TOKEN !== "") {
     next();
   }
@@ -112,11 +114,9 @@ let getAccessToken = (req, res, next) => {
   };
 
   let resulting = https.request(options, res => {
-    //res.setEncoding("utf8");
     let data = "";
 
     res.on("data", function(body) {
-      process.env.AUTH0_ACCESS_TOKEN = JSON.parse(body)["access_token"];
       data += body;
     });
 
