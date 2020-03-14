@@ -171,19 +171,23 @@ app.get("/getUsers/:id", getAccessToken, (req, res) => {
   const options = {
     hostname: "jnch009.auth0.com",
     headers: {
-      Authorization: `Bearer ${process.env.AUTH0_ACCESS_TOKEN}`
+      Authorization: `Bearer ${req.jwtDecode["access_token"]}`
     },
     path: "/api/v2/users/" + req.params.id
   };
-  let resulting = https.request(options, res => {
-    res.setEncoding("utf8");
-    res.on("data", function(body) {
-      console.log(JSON.parse(body));
+
+  let resulting = https.request(options, result => {
+    result.setEncoding("utf8");
+    result.on("data", function(body) {
+      req.User = JSON.parse(body);
+    });
+
+    result.on("end", () => {
+      res.json({ user: req.User });
     });
   });
 
   resulting.end();
-  res.end();
 });
 
 //   resulting.end();
