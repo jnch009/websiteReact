@@ -11,12 +11,14 @@ var path = require("path");
 var passport = require("passport");
 var Auth0Strategy = require("passport-auth0");
 const dotEnvPath = path.resolve(process.cwd(), "credentials.env");
+const jwksRsa = require("jwks-rsa");
 
 // function main() {
 var app = express();
 var session = require("express-session");
 var randomSecret = require("randomstring");
-var dotenv = require("dotenv").config({ path: dotEnvPath });
+require("dotenv").config({ path: dotEnvPath });
+
 var con = mysql.createConnection({
   host: process.env.LOCAL_DB_HOST,
   user: process.env.LOCAL_DB_USER,
@@ -89,18 +91,47 @@ app.use("/", authRouter);
 app.use("/", usersRouter);
 con.connect(() => {});
 
+// Define middleware that validates incoming bearer tokens
+// using JWKS from jnch009.auth0.com
+const verifyJWT = (req, res, next) => {
+  let kid = jwt.decode(req.jwtDecode, { complete: true })["header"]["kid"];
+  let signingKeys = jwksRsa({
+    jwksUri: `https://${process.env.AUTH0_DOMAIN}/.well-known/jwks.json`
+  });
+
+  signingKeys.getSigningKey(kid, (err, key) => {
+    const signingKey = key.getPublicKey();
+    jwt.verify(
+      req.jwtDecode,
+      signingKey,
+      {
+        audience: process.env.AUDIENCE,
+        issuer: `https://${process.env.AUTH0_DOMAIN}/`,
+        algorithms: ["RS256"]
+      },
+      (err, decoded) => {
+        if (err) {
+          res.status(401).send(err);
+        } else {
+          next();
+        }
+      }
+    );
+  });
+};
+
 let getAccessToken = (req, res, next) => {
   // This if statement needs to be refactored
   // with a SQL query instead
-  if (process.env.AUTH0_ACCESS_TOKEN !== "") {
-    next();
-  }
+  // if (dotenv.AUTH0_ACCESS_TOKEN !== "") {
+  //   next();
+  // }
 
   var postData = querystring.stringify({
     grant_type: "client_credentials",
     client_id: process.env.AUTH0_CLIENT_ID,
     client_secret: process.env.AUTH0_CLIENT_SECRET,
-    audience: "https://jnch009.auth0.com/api/v2/"
+    audience: process.env.AUDIENCE
   });
 
   var options = {
@@ -121,7 +152,8 @@ let getAccessToken = (req, res, next) => {
     });
 
     res.on("end", () => {
-      req.jwtDecode = JSON.parse(data);
+      let jwtObj = JSON.parse(data);
+      req.jwtDecode = jwtObj["access_token"];
       resulting.end();
       next();
     });
@@ -133,36 +165,39 @@ let getAccessToken = (req, res, next) => {
 };
 
 // Most likely will not need this, but just practicing
-app.post("/setAccessToken", getAccessToken, (req, res) => {
-  let params = req.body.uid;
-  let { access_token } = req.jwtDecode;
-  let qString = "INSERT INTO users(uid,access_token) VALUES(?,?)";
-  let query = con.query(qString, [params, access_token], error => {
-    if (error) {
-      return error;
-    }
-  });
-  res.status(200).end();
-});
+// app.post("/setAccessToken", getAccessToken, (req, res) => {
+//   let params = req.body.uid;
+//   let { access_token } = req.jwtDecode;
+//   let qString = "INSERT INTO users(uid,access_token) VALUES(?,?)";
+//   let query = con.query(qString, [params, access_token], error => {
+//     if (error) {
+//       return error;
+//     }
+//   });
+//   res.status(200).end();
+// });
 
 //Get all users
-app.get("/getUsers", getAccessToken, (req, res) => {
+app.get("/getUsers", getAccessToken, verifyJWT, (req, res) => {
   const options = {
     hostname: "jnch009.auth0.com",
     headers: {
-      Authorization: `Bearer ${process.env.AUTH0_ACCESS_TOKEN}`
+      Authorization: `Bearer ${req.jwtDecode}`
     },
     path: "/api/v2/users"
   };
-  let resulting = https.request(options, res => {
-    res.setEncoding("utf8");
-    res.on("data", function(body) {
-      console.log(JSON.parse(body));
+  let resulting = https.request(options, result => {
+    let data = "";
+    result.on("data", body => {
+      data += body;
+    });
+
+    result.on("end", () => {
+      res.json(JSON.parse(data));
     });
   });
 
   resulting.end();
-  res.end();
 });
 
 //Get a specific user
