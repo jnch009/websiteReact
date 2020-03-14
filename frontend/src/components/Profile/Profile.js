@@ -1,9 +1,16 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect } from "react";
 
 import { useAuth0 } from "../../react-auth0-spa";
+import { addAccessToken, getAllUsers } from "../../utils/commonRequests.js";
 
+let populatedUsers;
 const Profile = () => {
-  const { loading, user } = useAuth0();
+  const { isAuthenticated, loading, user, getTokenSilently } = useAuth0();
+
+  useEffect(() => {
+    populatedUsers = getAllUsers(isAuthenticated, getTokenSilently);
+    console.log(populatedUsers);
+  });
 
   if (loading || !user) {
     return <div>Loading...</div>;

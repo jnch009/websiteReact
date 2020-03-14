@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 
 import { useAuth0 } from "../../react-auth0-spa";
-import addAccessToken from "../../utils/commonRequests.js";
 
 import "./Home.css";
 
@@ -16,16 +15,7 @@ function Home() {
   const { isAuthenticated, user, getTokenSilently } = useAuth0();
   // should be fetching on load of the Home page and NOT the Navigation bar (Website component)
   // that was my mistake earlier
-  useEffect(() => {
-    if (isAuthenticated) {
-      // first async function written! Getting Token silently
-      async function silentToken() {
-        const token = await getTokenSilently();
-      }
-      silentToken();
-    }
-    //addAccessToken(isAuthenticated, user);
-  });
+  useEffect(() => {});
 
   gridItems = [];
   for (let [i, lbl] of gridLabels.entries()) {
