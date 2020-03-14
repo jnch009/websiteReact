@@ -13,11 +13,18 @@ const gridRedirects = ["/about", "/projects", "/blog"];
 let gridItems;
 
 function Home() {
-  const { isAuthenticated, user } = useAuth0();
+  const { isAuthenticated, user, getTokenSilently } = useAuth0();
   // should be fetching on load of the Home page and NOT the Navigation bar (Website component)
   // that was my mistake earlier
   useEffect(() => {
-    addAccessToken(isAuthenticated, user);
+    if (isAuthenticated) {
+      // first async function written! Getting Token silently
+      async function silentToken() {
+        const token = await getTokenSilently();
+      }
+      silentToken();
+    }
+    //addAccessToken(isAuthenticated, user);
   });
 
   gridItems = [];

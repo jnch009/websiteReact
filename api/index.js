@@ -132,13 +132,12 @@ let getAccessToken = (req, res, next) => {
   resulting.write(postData);
 };
 
+// Most likely will not need this, but just practicing
 app.post("/setAccessToken", getAccessToken, (req, res) => {
   let params = req.body.uid;
   let { access_token } = req.jwtDecode;
-  let { exp, iat } = jwt.decode(access_token);
-  let qString =
-    "INSERT INTO users(access_token,iat,exp,user_id) VALUES(?,?,?,?)";
-  let query = con.query(qString, [access_token, iat, exp, params], error => {
+  let qString = "INSERT INTO users(uid,access_token) VALUES(?,?)";
+  let query = con.query(qString, [params, access_token], error => {
     if (error) {
       return error;
     }
