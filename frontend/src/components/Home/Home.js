@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 
 import { useAuth0 } from "../../react-auth0-spa";
+import Navbar from "../Navbar/Navbar";
 
 import "./Home.css";
 
@@ -12,6 +13,12 @@ const gridRedirects = ["/about", "/projects", "/blog"];
 let gridItems;
 
 function Home() {
+  // const { user } = useAuth0();
+
+  // useEffect(() => {
+  //   console.log(user);
+  // });
+
   gridItems = [];
   for (let [i, lbl] of gridLabels.entries()) {
     let cssComponent = classNames("homeGrid", "homePageLinks", gridCSS[i]);

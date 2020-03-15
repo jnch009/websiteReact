@@ -1,24 +1,22 @@
-import React, { Component, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, Route, Router, Switch } from "react-router-dom";
-import { Breadcrumb, BreadcrumbItem, Button, ButtonGroup } from "shards-react";
 
 import { useAuth0 } from "../../react-auth0-spa";
 import history from "../../utils/history";
 import About from "../About/About";
-import Blog from "../Blog";
+import Blog from "../Blog/Blog";
 import Home from "../Home/Home.js";
+import Navbar from "../Navbar/Navbar";
 import PrivateRoute from "../PrivateRoute";
 import Profile from "../Profile/Profile.js";
-import Projects from "../Projects";
+import Projects from "../Projects/Projects";
 
 import "./Website.css";
 
 const classNames = require("classnames");
 
-// TODO: let's refactor this into a navbar component and then render it on each page
-
 function Website() {
-  const { isAuthenticated, loginWithRedirect, logout, user } = useAuth0();
+  const { loginWithRedirect, logout, user } = useAuth0();
   const [allUsers, setAllUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentUser, setCurrentUser] = useState();
@@ -57,39 +55,9 @@ function Website() {
   }
 
   return (
-    <div className="pageContainer">
+    <div className="App">
       <Router history={history}>
-        <Breadcrumb>
-          <div className="flex_1">
-            <BreadcrumbItem>
-              <Link to="/">Home</Link>
-            </BreadcrumbItem>
-            <BreadcrumbItem>
-              <Link to="/about">About</Link>
-            </BreadcrumbItem>
-            <BreadcrumbItem>
-              <Link to="/projects">Accomplishments</Link>
-            </BreadcrumbItem>
-            <BreadcrumbItem>
-              <Link to="/blog">Blog</Link>
-            </BreadcrumbItem>
-            {isAuthenticated ? (
-              <BreadcrumbItem>
-                <Link to="/profile">Profile</Link>
-              </BreadcrumbItem>
-            ) : null}
-          </div>
-          <div className="flex_2"></div>
-          <BreadcrumbItem>
-            {isAuthenticated ? (
-              <Link to="/logout">Logout</Link>
-            ) : (
-              <Link to="/login">Login</Link>
-            )}
-          </BreadcrumbItem>
-          <hr />
-        </Breadcrumb>
-
+        <Navbar />
         <Switch>
           <Route path="/about" component={About} />
           {/* https://tylermcginnis.com/react-router-pass-props-to-components/ */}
@@ -107,6 +75,5 @@ function Website() {
     </div>
   );
 }
-// transition: <property> <duration> <timing-function> <delay>;
 
 export default Website;
