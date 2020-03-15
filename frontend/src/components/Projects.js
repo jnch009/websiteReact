@@ -26,13 +26,15 @@ class Projects extends React.Component {
   }
 
   /* could be used in the future for add a button, but better suited for the blog page*/
-  handleClick() {
+  handleClick = () => {
     var data = {
       title: "posting",
       startDate: "2000-01-01",
       endDate: "2002-01-01",
       description: "test description",
-      author: "Jeremy Ng Cheng Hin"
+      author: "Jeremy Ng Cheng Hin",
+      course: "none",
+      job: 0
     };
     fetch("http://localhost:3001/projects/add", {
       method: "POST",
@@ -41,8 +43,21 @@ class Projects extends React.Component {
         "Content-Type": "application/json"
       },
       body: JSON.stringify(data)
-    }).then(res => res.json());
-  }
+    }).then(() => {
+      fetch("http://localhost:3001/projects")
+        .then(res => res.json())
+        .then(
+          result => {
+            this.setState({
+              projects: result
+            });
+          },
+          error => {
+            console.log(error);
+          }
+        );
+    });
+  };
 
   monthString(monthIndex) {
     var months = [
@@ -82,7 +97,7 @@ class Projects extends React.Component {
     return (
       <div>
         {this.props.currentUser?.app_metadata?.roles?.includes(adminRole) ? (
-          <Button>Add a new project</Button>
+          <Button onClick={this.handleClick}>Add a new project</Button>
         ) : null}
         {this.state.projects.map(project => (
           <div>
