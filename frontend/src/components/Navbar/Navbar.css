@@ -48,3 +48,11 @@ ol.breadcrumb {
   justify-content: center;
   align-items: center;
 }
+
+div.flex_1 > a > button.buttonNav,
+ol.breadcrumb > a > button.buttonNav {
+  background-color: Transparent;
+  outline: none;
+  border: none;
+  color: black;
+}
