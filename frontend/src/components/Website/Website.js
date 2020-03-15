@@ -18,7 +18,27 @@ const classNames = require("classnames");
 // TODO: let's refactor this into a navbar component and then render it on each page
 
 function Website() {
-  const { isAuthenticated, loginWithRedirect, logout, loading } = useAuth0();
+  const { isAuthenticated, loginWithRedirect, logout, user } = useAuth0();
+  const [allUsers, setAllUsers] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [currentUser, setCurrentUser] = useState();
+
+  useEffect(() => {
+    const getUsers = async () => {
+      await fetch("http://localhost:3001/getUsers")
+        .then(res => {
+          return res.json();
+        })
+        .then(data => {
+          return JSON.stringify(data);
+        })
+        .then(jsonStr => {
+          setAllUsers([...allUsers, ...JSON.parse(jsonStr)]);
+          setLoading(false);
+        });
+    };
+    getUsers();
+  }, []);
 
   if (loading) {
     return (
@@ -26,6 +46,14 @@ function Website() {
         Loading...
       </div>
     );
+  }
+
+  if (currentUser === undefined) {
+    allUsers.map(serverUser => {
+      if (serverUser?.user_id === user?.sub) {
+        setCurrentUser(serverUser);
+      }
+    });
   }
 
   return (

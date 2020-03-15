@@ -1,8 +1,8 @@
-import React, { Fragment, useEffect, useState, useLayoutEffect } from "react";
-
-import "./Profile.css";
+import React, { Fragment, useEffect, useLayoutEffect, useState } from "react";
 
 import { useAuth0 } from "../../react-auth0-spa";
+
+import "./Profile.css";
 
 const shortid = require("shortid");
 const classNames = require("classnames");
