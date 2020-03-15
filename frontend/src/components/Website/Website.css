@@ -10,7 +10,7 @@
 
 .pageContainer {
   height: 100%;
-  overflow-y: hidden;
+  /* overflow-y: hidden; */
 }
 
 ol.breadcrumb {
@@ -26,7 +26,7 @@ ol.breadcrumb {
     width: 910px;
   }
 
-  .flexContainer{
+  .flexContainer {
     width: 910px;
   }
 }
