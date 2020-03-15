@@ -12,11 +12,6 @@ const gridRedirects = ["/about", "/projects", "/blog"];
 let gridItems;
 
 function Home() {
-  const { isAuthenticated, user, getTokenSilently } = useAuth0();
-  // should be fetching on load of the Home page and NOT the Navigation bar (Website component)
-  // that was my mistake earlier
-  useEffect(() => {});
-
   gridItems = [];
   for (let [i, lbl] of gridLabels.entries()) {
     let cssComponent = classNames("homeGrid", "homePageLinks", gridCSS[i]);

@@ -15,6 +15,8 @@ import "./Website.css";
 
 const classNames = require("classnames");
 
+// TODO: let's refactor this into a navbar component and then render it on each page
+
 function Website() {
   const { isAuthenticated, loginWithRedirect, logout, loading } = useAuth0();
 
