@@ -3,12 +3,11 @@ import React, { Fragment, useEffect, useState, useLayoutEffect } from "react";
 import "./Profile.css";
 
 import { useAuth0 } from "../../react-auth0-spa";
-import { addAccessToken, getAllUsers } from "../../utils/commonRequests.js";
 
 const shortid = require("shortid");
 const classNames = require("classnames");
 function Profile() {
-  const { isAuthenticated, user } = useAuth0();
+  const { user } = useAuth0();
   const [allUsers, setAllUsers] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -48,6 +47,7 @@ function Profile() {
         <div key={shortid.generate()}>
           <img src={v["picture"]} />
           <h1>{v["given_name"]}</h1>
+          <h4>{v?.app_metadata?.roles ? v["app_metadata"]["roles"] : null}</h4>
           <br />
         </div>
       ))}
