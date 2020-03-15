@@ -1,6 +1,7 @@
 import React from "react";
 import { Button, Card, CardBody, CardFooter, CardHeader } from "shards-react";
 
+const adminRole = "admin";
 class Projects extends React.Component {
   constructor(props) {
     super(props);
@@ -80,7 +81,9 @@ class Projects extends React.Component {
 
     return (
       <div>
-        <Button>Add a new project</Button>
+        {this.props.currentUser?.app_metadata?.roles?.includes(adminRole) ? (
+          <Button>Add a new project</Button>
+        ) : null}
         {this.state.projects.map(project => (
           <div>
             <br />

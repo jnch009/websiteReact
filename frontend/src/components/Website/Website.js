@@ -92,7 +92,11 @@ function Website() {
 
         <Switch>
           <Route path="/about" component={About} />
-          <Route path="/projects" component={Projects} />
+          {/* https://tylermcginnis.com/react-router-pass-props-to-components/ */}
+          <Route
+            path="/projects"
+            render={props => <Projects {...props} currentUser={currentUser} />}
+          />
           <Route path="/blog" component={Blog} />
           <PrivateRoute path="/profile" component={Profile} />
           <Route path="/login" component={() => loginWithRedirect({})} />
