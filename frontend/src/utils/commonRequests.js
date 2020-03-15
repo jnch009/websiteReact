@@ -14,4 +14,4 @@ const addAccessToken = (isAuthenticated, user) => {
   }
 };
 
-export default addAccessToken;
+module.exports = { addAccessToken: addAccessToken };
