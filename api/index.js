@@ -121,12 +121,6 @@ const verifyJWT = (req, res, next) => {
 };
 
 let getAccessToken = (req, res, next) => {
-  // This if statement needs to be refactored
-  // with a SQL query instead
-  // if (dotenv.AUTH0_ACCESS_TOKEN !== "") {
-  //   next();
-  // }
-
   var postData = querystring.stringify({
     grant_type: "client_credentials",
     client_id: process.env.AUTH0_CLIENT_ID,
@@ -265,21 +259,6 @@ app.get("/getUsers/:id", getAccessToken, (req, res) => {
 //     (error, results, fields) => {
 //       if (error) throw error;
 //       res.end(JSON.stringify(results));
-//     }
-//   );
-// });
-
-// app.get("/user/:uid/pass/:pwd", (req, res) => {
-//   con.query(
-//     "SELECT * FROM Users WHERE Username = ? && Password = ?",
-//     [req.params.uid, req.params.pwd],
-//     function(err, tup, fields) {
-//       if (err) throw error;
-//       if (JSON.stringify(tup) != "[]") {
-//         res.json(true);
-//       } else {
-//         res.json(false);
-//       }
 //     }
 //   );
 // });
