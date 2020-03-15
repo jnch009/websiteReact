@@ -20,11 +20,11 @@ var randomSecret = require("randomstring");
 require("dotenv").config({ path: dotEnvPath });
 
 var con = mysql.createConnection({
-  host: process.env.LOCAL_DB_HOST,
-  user: process.env.LOCAL_DB_USER,
-  password: process.env.LOCAL_DB_PASS,
-  database: process.env.LOCAL_DB_SCHEMA,
-  port: process.env.LOCAL_DB_PORT
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASS,
+  database: process.env.DB_SCHEMA,
+  port: process.env.DB_PORT
 });
 
 var sess = {
@@ -218,50 +218,49 @@ app.get("/getUsers/:id", getAccessToken, (req, res) => {
   resulting.end();
 });
 
-//   resulting.end();
-// });
+let qString = "SELECT * FROM Projects";
+app.get("/projects", (req, res) => {
+  con.query(qString, function(err, tup, fields) {
+    if (err) throw err;
+    res.json(tup);
+  });
+});
 
-// con.connect();
+app.get("/projects/:id", (req, res) => {
+  con.query(
+    "SELECT * FROM Projects WHERE Id = ?",
+    [req.params.id],
+    (err, tup, fields) => {
+      if (err) throw err;
 
-// // let handlers = new HandlerGenerator();
-// // app.post('/login', handlers.login);
-// // app.get('/',middleware.checkToken,handlers.index);
+      const project = tup.map(t => {
+        return { title: t.Title, author: t.Author };
+      });
 
-// var qString = "SELECT * FROM Projects";
-// app.get("/projects", (req, res) => {
-//   con.query(qString, function(err, tup, fields) {
-//     if (err) throw err;
-//     res.json(tup);
-//   });
-// });
+      res.json(project);
+    }
+  );
+});
 
-// app.get("/projects/:id", (req, res) => {
-//   con.query("SELECT * FROM Projects WHERE Id = ?", [req.params.id], function(
-//     err,
-//     tup,
-//     fields
-//   ) {
-//     if (err) throw err;
-
-//     const project = tup.map(t => {
-//       return { title: t.Title, author: t.Author };
-//     });
-
-//     res.json(project);
-//   });
-// });
-
-// app.post("/projects/add", (req, res) => {
-//   var postData = req.body;
-//   con.query(
-//     "INSERT INTO Projects SET ?",
-//     postData,
-//     (error, results, fields) => {
-//       if (error) throw error;
-//       res.end(JSON.stringify(results));
-//     }
-//   );
-// });
+app.post("/projects/add", (req, res) => {
+  let {
+    title,
+    startDate,
+    endDate,
+    description,
+    author,
+    course,
+    job
+  } = req.body;
+  con.query(
+    "INSERT INTO Projects(Title,StartDate,EndDate,Description,Author,Course,Job) VALUES(?,?,?,?,?,?,?)",
+    [title, startDate, endDate, description, author, course, job],
+    (err, results) => {
+      if (err) throw err;
+      res.status(200).end();
+    }
+  );
+});
 
 //main();
 if (app.get("env") !== "test") {
