@@ -2,5 +2,10 @@
   display: flex;
   height: inherit;
   flex-direction: column;
-  margin-top: 5vh;
+  margin-top: 10vh;
+}
+
+.icon-container {
+  display: flex;
+  justify-content: space-evenly;
 }

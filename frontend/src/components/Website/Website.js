@@ -66,7 +66,10 @@ function Website() {
             render={props => <Projects {...props} currentUser={currentUser} />}
           />
           <Route path="/blog" component={Blog} />
-          <PrivateRoute path="/profile" component={Profile} />
+          <PrivateRoute
+            path="/profile"
+            render={props => <Profile {...props} currentUser={currentUser} />}
+          />
           <Route path="/login" component={() => loginWithRedirect({})} />
           <Route path="/logout" component={() => logout({})} />
           <Route path="/" component={Home} />
