@@ -12,9 +12,11 @@ ol.breadcrumb {
   margin: 0;
 }
 
-.breadcrumb {
+.websiteBreadcrumb {
+  top: 0;
   width: 100%;
   position: fixed;
+  z-index: 1;
 }
 
 @media (max-width: 900px) {
@@ -25,13 +27,6 @@ ol.breadcrumb {
   .flexContainer {
     width: 910px;
   }
-}
-
-.pageContainer__flexCenter {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding-bottom: 15em;
 }
 
 .comingSoonContainer {

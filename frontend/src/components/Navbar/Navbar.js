@@ -14,7 +14,7 @@ function Navbar() {
 
   return (
     <>
-      <Breadcrumb>
+      <Breadcrumb className="websiteBreadcrumb">
         <div className="flex_1">
           <Link to="/">
             <Button className={buttonNav}>Home</Button>

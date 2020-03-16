@@ -1,6 +1,8 @@
 import React from "react";
 import { Button, Card, CardBody, CardFooter, CardHeader } from "shards-react";
 
+import "./Projects.css";
+
 const adminRole = "admin";
 class Projects extends React.Component {
   constructor(props) {
@@ -95,7 +97,7 @@ class Projects extends React.Component {
     });
 
     return (
-      <div>
+      <div className="pageContainerProjects">
         {this.props.currentUser?.app_metadata?.roles?.includes(adminRole) ? (
           <Button onClick={this.handleClick}>Add a new project</Button>
         ) : null}
