@@ -33,7 +33,14 @@ function Home() {
     );
   }
 
-  return <div className="flexContainer">{gridItems}</div>;
+  return (
+    <>
+      <div className="welcome">
+        <h1>Welcome!</h1>
+      </div>
+      <div className="flexContainer">{gridItems}</div>
+    </>
+  );
 }
 
 export default Home;

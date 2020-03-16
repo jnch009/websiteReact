@@ -8,16 +8,13 @@
   width: 60%;
 }
 
-.pageContainer {
-  /* overflow-y: hidden; */
-}
-
 ol.breadcrumb {
   margin: 0;
 }
 
 .breadcrumb {
   width: 100%;
+  position: fixed;
 }
 
 @media (max-width: 900px) {
