@@ -17,6 +17,7 @@
     "react-scripts": "^3.4.0",
     "shards-react": "^1.0.3",
     "shortid": "^2.2.15",
+    "spectre.css": "^0.5.8",
     "yarn": "^1.22.0"
   },
   "scripts": {
