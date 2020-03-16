@@ -6,7 +6,6 @@ import { useAuth0 } from "../../react-auth0-spa";
 
 import "./Navbar.css";
 
-// TODO: let's refactor this into a navbar component and then render it on each page
 const className = require("classnames");
 let buttonNav = className("buttonNav");
 function Navbar() {
