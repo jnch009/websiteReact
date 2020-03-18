@@ -1,4 +1,5 @@
 import React, { Fragment, useEffect, useLayoutEffect, useState } from "react";
+import _ from "lodash";
 import { Button, Collapse } from "shards-react";
 
 import { useAuth0 } from "../../react-auth0-spa";
@@ -49,13 +50,20 @@ function Profile(props) {
             </tr>
           </thead>
           <tbody>
-            {allUsers.map(v => (
-              <tr key={shortid.generate()}>
-                <td>{v["given_name"]}</td>
-                <td>{v["email"]}</td>
-                <td>{v["nickname"]}</td>
+            {allUsers.map(user => (
+              <tr
+                key={shortid.generate()}
+                className={
+                  _.isEqual(user, props.currentUser) ? "currentUserRow" : null
+                }
+              >
+                <td>{user["given_name"]}</td>
+                <td>{user["email"]}</td>
+                <td>{user["nickname"]}</td>
                 <td>
-                  {v?.app_metadata?.roles ? v["app_metadata"]["roles"] : null}
+                  {user?.app_metadata?.roles
+                    ? user["app_metadata"]["roles"]
+                    : null}
                 </td>
                 <td>
                   <div className="icon-container">

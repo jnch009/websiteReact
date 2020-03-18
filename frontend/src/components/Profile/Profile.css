@@ -33,3 +33,7 @@
 .usersTable > .table {
   width: 50%;
 }
+
+.currentUserRow {
+  background-color: yellow;
+}
