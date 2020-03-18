@@ -17,8 +17,15 @@ function Profile(props) {
     setOpen(!open);
   };
 
+  const handleLoad = () => {
+    props.loadPage(true);
+  };
+
+  //TODO: Add a button to check for changes to the users table (DONE) Now style it :)
+
   return (
     <div className="pageContainerProfile">
+      <Button onClick={handleLoad}>Reload</Button>
       {props.currentUser?.app_metadata?.roles?.includes(adminRole) ? (
         <Button onClick={showUserData}>Show User Format</Button>
       ) : (
