@@ -154,9 +154,14 @@ let getAccessToken = (req, res, next) => {
     });
   });
 
+  resulting.on("error", e => {
+    console.error(e);
+  });
+
   // Why am I doing this?
   // Because I need to write to the buffer that was created in Content - Length
   resulting.write(postData);
+  resulting.end();
 };
 
 // Most likely will not need this, but just practicing
@@ -190,6 +195,10 @@ app.get("/getUsers", getAccessToken, verifyJWT, (req, res) => {
     result.on("end", () => {
       res.json(JSON.parse(data));
     });
+  });
+
+  resulting.on("error", e => {
+    console.error(e);
   });
 
   resulting.end();
