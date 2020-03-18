@@ -44,7 +44,7 @@ function Website() {
   if (loading) {
     return (
       <div className={classNames("loadingIndicator", "pageContainer")}>
-        Loading...
+        <i class="fas fa-sync fa-spin spinner-size"></i>
       </div>
     );
   }
