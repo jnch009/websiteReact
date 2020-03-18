@@ -1,3 +1,4 @@
+import _ from "lodash";
 import React, { useEffect, useState } from "react";
 import { Link, Route, Router, Switch } from "react-router-dom";
 
@@ -31,15 +32,14 @@ function Website() {
           return JSON.stringify(data);
         })
         .then(jsonStr => {
-          //TODO: need to engineer a solution to not re-render when user properties are all the same
-          if (allUsers !== JSON.parse(jsonStr)) {
+          if (!_.isEqual(allUsers, JSON.parse(jsonStr))) {
             setAllUsers([...allUsers, ...JSON.parse(jsonStr)]);
           }
           setLoading(false);
         });
     };
     getUsers();
-  }, []);
+  }, [allUsers]);
 
   if (loading) {
     return (
