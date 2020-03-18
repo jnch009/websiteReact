@@ -49,7 +49,6 @@ function Website() {
     );
   }
 
-  // TODO: the logic here will need to be updated if a new user is logged in
   if (currentUser === undefined) {
     allUsers.map(serverUser => {
       if (serverUser?.user_id === user?.sub) {

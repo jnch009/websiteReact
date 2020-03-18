@@ -35,7 +35,7 @@ function Profile(props) {
         </Button>
       )}
       <Collapse open={open}>
-        <code>{JSON.stringify(allUsers[0], null, 2)}</code>
+        <code>{JSON.stringify(props.currentUser, null, 2)}</code>
       </Collapse>
       {/* TODO: sort this table https://www.npmjs.com/package/react-data-sort */}
       <div className="usersTable">
