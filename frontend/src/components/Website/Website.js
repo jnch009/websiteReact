@@ -32,9 +32,7 @@ function Website() {
           return JSON.stringify(data);
         })
         .then(jsonStr => {
-          if (!_.isEqual(allUsers, JSON.parse(jsonStr))) {
-            setAllUsers(JSON.parse(jsonStr));
-          }
+          setAllUsers(JSON.parse(jsonStr));
           setLoading(false);
         });
     };

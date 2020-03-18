@@ -100,6 +100,7 @@ const verifyJWT = (req, res, next) => {
   });
 
   signingKeys.getSigningKey(kid, (err, key) => {
+    // possiblity that the key can return undefined
     const signingKey = key.getPublicKey();
     jwt.verify(
       req.jwtDecode,
