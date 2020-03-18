@@ -33,13 +33,13 @@ function Website() {
         })
         .then(jsonStr => {
           if (!_.isEqual(allUsers, JSON.parse(jsonStr))) {
-            setAllUsers([...allUsers, ...JSON.parse(jsonStr)]);
+            setAllUsers(JSON.parse(jsonStr));
           }
           setLoading(false);
         });
     };
     getUsers();
-  }, [allUsers]);
+  });
 
   if (loading) {
     return (
