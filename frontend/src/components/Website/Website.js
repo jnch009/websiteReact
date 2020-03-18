@@ -31,7 +31,10 @@ function Website() {
           return JSON.stringify(data);
         })
         .then(jsonStr => {
-          setAllUsers([...allUsers, ...JSON.parse(jsonStr)]);
+          //TODO: need to engineer a solution to not re-render when user properties are all the same
+          if (allUsers !== JSON.parse(jsonStr)) {
+            setAllUsers([...allUsers, ...JSON.parse(jsonStr)]);
+          }
           setLoading(false);
         });
     };
@@ -68,7 +71,13 @@ function Website() {
           <Route path="/blog" component={Blog} />
           <PrivateRoute
             path="/profile"
-            render={props => <Profile {...props} currentUser={currentUser} />}
+            render={props => (
+              <Profile
+                {...props}
+                currentUser={currentUser}
+                allUsers={allUsers}
+              />
+            )}
           />
           <Route path="/login" component={() => loginWithRedirect({})} />
           <Route path="/logout" component={() => logout({})} />

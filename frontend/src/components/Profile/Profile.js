@@ -1,8 +1,7 @@
 import React, { Fragment, useEffect, useLayoutEffect, useState } from "react";
+import { Button, Collapse } from "shards-react";
 
 import { useAuth0 } from "../../react-auth0-spa";
-
-import { Button, Collapse } from "shards-react";
 
 import "./Profile.css";
 
@@ -11,34 +10,8 @@ const classNames = require("classnames");
 const adminRole = "admin";
 function Profile(props) {
   const { user } = useAuth0();
-  const [allUsers, setAllUsers] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [open, setOpen] = useState(false);
-
-  useEffect(() => {
-    const getUsers = async () => {
-      const res = await fetch("http://localhost:3001/getUsers")
-        .then(res => {
-          return res.json();
-        })
-        .then(data => {
-          return JSON.stringify(data);
-        })
-        .then(jsonStr => {
-          setAllUsers([...allUsers, ...JSON.parse(jsonStr)]);
-          setLoading(false);
-        });
-    };
-    getUsers();
-  }, []);
-
-  if (loading) {
-    return (
-      <div className={classNames("loadingIndicator", "pageContainer")}>
-        Loading...
-      </div>
-    );
-  }
+  const { allUsers } = props;
 
   const showUserData = () => {
     setOpen(!open);
