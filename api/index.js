@@ -21,7 +21,7 @@ var con = mysql.createConnection({
   user: process.env.DB_USER,
   password: process.env.DB_PASS,
   database: process.env.DB_SCHEMA,
-  port: process.env.DB_PORT
+  port: process.env.DB_PORT,
 });
 
 app.use(bodyParser.json());
@@ -29,7 +29,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(
   cors({
     origin: "http://localhost:3000",
-    credentials: true
+    credentials: true,
   })
 );
 
@@ -40,7 +40,7 @@ con.connect(() => {});
 const verifyJWT = (req, res, next) => {
   let kid = jwt.decode(req.jwtDecode, { complete: true })["header"]["kid"];
   let signingKeys = jwksRsa({
-    jwksUri: `https://${process.env.AUTH0_DOMAIN}/.well-known/jwks.json`
+    jwksUri: `https://${process.env.AUTH0_DOMAIN}/.well-known/jwks.json`,
   });
 
   signingKeys.getSigningKey(kid, (err, key) => {
@@ -52,7 +52,7 @@ const verifyJWT = (req, res, next) => {
       {
         audience: process.env.AUDIENCE,
         issuer: `https://${process.env.AUTH0_DOMAIN}/`,
-        algorithms: ["RS256"]
+        algorithms: ["RS256"],
       },
       (err, decoded) => {
         if (err) {
@@ -70,7 +70,7 @@ let getAccessToken = (req, res, next) => {
     grant_type: "client_credentials",
     client_id: process.env.AUTH0_CLIENT_ID,
     client_secret: process.env.AUTH0_CLIENT_SECRET,
-    audience: process.env.AUDIENCE
+    audience: process.env.AUDIENCE,
   });
 
   var options = {
@@ -78,15 +78,15 @@ let getAccessToken = (req, res, next) => {
     hostname: "jnch009.auth0.com",
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
-      "Content-Length": Buffer.byteLength(postData)
+      "Content-Length": Buffer.byteLength(postData),
     },
-    path: "/oauth/token"
+    path: "/oauth/token",
   };
 
-  let resulting = https.request(options, res => {
+  let resulting = https.request(options, (res) => {
     let data = "";
 
-    res.on("data", function(body) {
+    res.on("data", function (body) {
       data += body;
     });
 
@@ -98,7 +98,7 @@ let getAccessToken = (req, res, next) => {
     });
   });
 
-  resulting.on("error", e => {
+  resulting.on("error", (e) => {
     console.error(e);
   });
 
@@ -113,13 +113,13 @@ app.get("/getUsers", getAccessToken, verifyJWT, (req, res) => {
   const options = {
     hostname: "jnch009.auth0.com",
     headers: {
-      Authorization: `Bearer ${req.jwtDecode}`
+      Authorization: `Bearer ${req.jwtDecode}`,
     },
-    path: "/api/v2/users"
+    path: "/api/v2/users",
   };
-  let resulting = https.request(options, result => {
+  let resulting = https.request(options, (result) => {
     let data = "";
-    result.on("data", body => {
+    result.on("data", (body) => {
       data += body;
     });
 
@@ -128,7 +128,7 @@ app.get("/getUsers", getAccessToken, verifyJWT, (req, res) => {
     });
   });
 
-  resulting.on("error", e => {
+  resulting.on("error", (e) => {
     console.error(e);
   });
 
@@ -140,14 +140,14 @@ app.get("/getUsers/:id", getAccessToken, (req, res) => {
   const options = {
     hostname: "jnch009.auth0.com",
     headers: {
-      Authorization: `Bearer ${req.jwtDecode["access_token"]}`
+      Authorization: `Bearer ${req.jwtDecode["access_token"]}`,
     },
-    path: "/api/v2/users/" + req.params.id
+    path: "/api/v2/users/" + req.params.id,
   };
 
-  let resulting = https.request(options, result => {
+  let resulting = https.request(options, (result) => {
     result.setEncoding("utf8");
-    result.on("data", function(body) {
+    result.on("data", function (body) {
       req.User = JSON.parse(body);
     });
 
@@ -161,7 +161,7 @@ app.get("/getUsers/:id", getAccessToken, (req, res) => {
 
 let qString = "SELECT * FROM Projects";
 app.get("/projects", (req, res) => {
-  con.query(qString, function(err, tup, fields) {
+  con.query(qString, function (err, tup, fields) {
     if (err) throw err;
     res.json(tup);
   });
@@ -174,7 +174,7 @@ app.get("/projects/:id", (req, res) => {
     (err, tup, fields) => {
       if (err) throw err;
 
-      const project = tup.map(t => {
+      const project = tup.map((t) => {
         return { title: t.Title, author: t.Author };
       });
 
@@ -191,7 +191,7 @@ app.post("/projects/add", (req, res) => {
     description,
     author,
     course,
-    job
+    job,
   } = req.body;
   con.query(
     "INSERT INTO Projects(Title,StartDate,EndDate,Description,Author,Course,Job) VALUES(?,?,?,?,?,?,?)",
@@ -212,7 +212,7 @@ if (app.get("env") !== "test") {
 
 module.exports = {
   app: app,
-  getAccessToken: getAccessToken
+  getAccessToken: getAccessToken,
 };
 
 // Most likely will not need this, but just practicing

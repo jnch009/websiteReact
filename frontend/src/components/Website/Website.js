@@ -37,7 +37,7 @@ function Website() {
         });
     };
     getUsers();
-  }, [isAuthenticated]);
+  }, [loading]);
 
   if (loading) {
     return (
