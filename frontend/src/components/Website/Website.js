@@ -17,7 +17,7 @@ import "./Website.css";
 const classNames = require("classnames");
 
 function Website() {
-  const { loginWithRedirect, logout, user } = useAuth0();
+  const { loginWithRedirect, logout, user, isAuthenticated } = useAuth0();
   const [allUsers, setAllUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentUser, setCurrentUser] = useState();
@@ -25,19 +25,19 @@ function Website() {
   useEffect(() => {
     const getUsers = async () => {
       await fetch("http://localhost:3001/getUsers")
-        .then(res => {
+        .then((res) => {
           return res.json();
         })
-        .then(data => {
+        .then((data) => {
           return JSON.stringify(data);
         })
-        .then(jsonStr => {
+        .then((jsonStr) => {
           setAllUsers(JSON.parse(jsonStr));
           setLoading(false);
         });
     };
     getUsers();
-  });
+  }, [isAuthenticated]);
 
   if (loading) {
     return (
@@ -47,8 +47,8 @@ function Website() {
     );
   }
 
-  if (currentUser === undefined) {
-    allUsers.map(serverUser => {
+  if (isAuthenticated && currentUser === undefined) {
+    allUsers.map((serverUser) => {
       if (serverUser?.user_id === user?.sub) {
         setCurrentUser(serverUser);
       }
@@ -64,12 +64,14 @@ function Website() {
           {/* https://tylermcginnis.com/react-router-pass-props-to-components/ */}
           <Route
             path="/projects"
-            render={props => <Projects {...props} currentUser={currentUser} />}
+            render={(props) => (
+              <Projects {...props} currentUser={currentUser} />
+            )}
           />
           <Route path="/blog" component={Blog} />
           <PrivateRoute
             path="/profile"
-            render={props => (
+            render={(props) => (
               <Profile
                 {...props}
                 currentUser={currentUser}
