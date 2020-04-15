@@ -36,7 +36,7 @@ function Home() {
   return (
     <>
       <div className="welcome">
-        <h1>Welcome!</h1>
+        <h1 className="cover">Welcome!</h1>
       </div>
       <div className="flexContainer">{gridItems}</div>
     </>
