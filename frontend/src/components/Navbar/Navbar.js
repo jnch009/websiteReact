@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Breadcrumb, BreadcrumbItem, Button } from "shards-react";
 
@@ -11,31 +11,65 @@ let buttonNav = className("buttonNav");
 function Navbar() {
   const { isAuthenticated } = useAuth0();
 
+  const [hamburger, showHamburgerMenu] = useState(false);
+
   return (
     <>
       <Breadcrumb className="websiteBreadcrumb">
-        <ul className="navbarContainer">
-          <li>
+        <div
+          onClick={() =>
+            window.innerWidth <= 415 ? showHamburgerMenu(!hamburger) : null
+          }
+        >
+          <i class="fas fa-bars"></i>
+        </div>
+        <ul
+          className={
+            hamburger ? "navbarContainer navbarHamburger" : "navbarContainer"
+          }
+        >
+          <li
+            onClick={() =>
+              window.innerWidth <= 415 ? showHamburgerMenu(!hamburger) : null
+            }
+          >
             <Link to="/">
               <Button className={buttonNav}>Home</Button>
             </Link>
           </li>
-          <li>
+          <li
+            onClick={() =>
+              window.innerWidth <= 415 ? showHamburgerMenu(!hamburger) : null
+            }
+          >
             <Link to="/about">
               <Button className={buttonNav}>About</Button>
             </Link>
           </li>
-          <li>
+          <li
+            onClick={() =>
+              window.innerWidth <= 415 ? showHamburgerMenu(!hamburger) : null
+            }
+          >
             <Link to="/projects">
               <Button className={buttonNav}>Accomplishments</Button>
             </Link>
           </li>
-          <li>
+          <li
+            onClick={() =>
+              window.innerWidth <= 415 ? showHamburgerMenu(!hamburger) : null
+            }
+          >
             <Link to="/blog">
               <Button className={buttonNav}>Blog</Button>
             </Link>
           </li>
-          <li className="navbarGap">
+          <li
+            className={hamburger ? "noMargin" : "navbarGap"}
+            onClick={() =>
+              window.innerWidth <= 415 ? showHamburgerMenu(!hamburger) : null
+            }
+          >
             {isAuthenticated ? (
               <Link to="/profile">
                 <Button className={buttonNav}>Profile</Button>

@@ -51,3 +51,26 @@ ul.navbarContainer > li > a > button {
   border: none;
   color: black;
 }
+
+.fa-bars {
+  display: none;
+}
+
+.noMargin {
+  margin: 0;
+}
+
+@media (max-width: 415px) {
+  .fa-bars {
+    display: inline;
+  }
+
+  ul.navbarContainer {
+    display: none;
+  }
+
+  ul.navbarHamburger {
+    display: flex;
+    flex-direction: column;
+  }
+}
