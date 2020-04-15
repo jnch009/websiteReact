@@ -1,22 +1,26 @@
-.flex_1 {
-  display: flex;
-  width: 35%;
-}
-
-.flex_2 {
-  display: flex;
-  width: 55%;
-}
-
-ol.breadcrumb {
-  margin: 0;
-}
-
 .websiteBreadcrumb {
   top: 0;
   width: 100%;
   position: fixed;
   z-index: 1;
+}
+
+ul.navbarContainer {
+  display: flex;
+  list-style: none;
+  width: 100%;
+}
+
+.navbarGap {
+  margin-left: auto;
+}
+
+li {
+  padding: 5px;
+}
+
+ol.breadcrumb {
+  margin: 0;
 }
 
 @media (max-width: 900px) {
@@ -41,8 +45,7 @@ ol.breadcrumb {
   align-items: center;
 }
 
-div.flex_1 > a > button.buttonNav,
-ol.breadcrumb > a > button.buttonNav {
+ul.navbarContainer > li > a > button {
   background-color: Transparent;
   outline: none;
   border: none;
