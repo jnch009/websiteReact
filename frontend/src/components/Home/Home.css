@@ -50,6 +50,13 @@ a.homePageLinks:hover {
 .gridItems {
   margin: 20px;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
-  gap: 200px;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 30px;
+}
+
+@media (max-width: 415px) {
+  .gridItems {
+    margin: 0;
+    margin-top: 40px;
+  }
 }

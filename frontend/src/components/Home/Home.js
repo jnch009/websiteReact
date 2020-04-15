@@ -7,7 +7,7 @@ import "./Home.css";
 
 const sID = require("shortid");
 const classNames = require("classnames");
-const gridLabels = ["About", "Tekken 7", "Blog", "Contact"];
+const gridLabels = ["About", "Tekken", "Blog", "Contact"];
 const gridRedirects = ["/about", "/projects", "/blog"];
 let gridItems;
 
