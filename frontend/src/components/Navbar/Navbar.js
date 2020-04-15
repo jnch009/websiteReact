@@ -7,10 +7,11 @@ import { useAuth0 } from "../../react-auth0-spa";
 import "./Navbar.css";
 
 const className = require("classnames");
+const minimumWindowSize = 415;
 let buttonNav = className("buttonNav");
+
 function Navbar() {
   const { isAuthenticated } = useAuth0();
-
   const [hamburger, showHamburgerMenu] = useState(false);
 
   return (
@@ -18,7 +19,9 @@ function Navbar() {
       <Breadcrumb className="websiteBreadcrumb">
         <div
           onClick={() =>
-            window.innerWidth <= 415 ? showHamburgerMenu(!hamburger) : null
+            window.innerWidth <= minimumWindowSize
+              ? showHamburgerMenu(!hamburger)
+              : null
           }
         >
           <i class="fas fa-bars"></i>
@@ -30,7 +33,9 @@ function Navbar() {
         >
           <li
             onClick={() =>
-              window.innerWidth <= 415 ? showHamburgerMenu(!hamburger) : null
+              window.innerWidth <= minimumWindowSize
+                ? showHamburgerMenu(!hamburger)
+                : null
             }
           >
             <Link to="/">
@@ -39,7 +44,9 @@ function Navbar() {
           </li>
           <li
             onClick={() =>
-              window.innerWidth <= 415 ? showHamburgerMenu(!hamburger) : null
+              window.innerWidth <= minimumWindowSize
+                ? showHamburgerMenu(!hamburger)
+                : null
             }
           >
             <Link to="/about">
@@ -48,7 +55,9 @@ function Navbar() {
           </li>
           <li
             onClick={() =>
-              window.innerWidth <= 415 ? showHamburgerMenu(!hamburger) : null
+              window.innerWidth <= minimumWindowSize
+                ? showHamburgerMenu(!hamburger)
+                : null
             }
           >
             <Link to="/projects">
@@ -57,7 +66,9 @@ function Navbar() {
           </li>
           <li
             onClick={() =>
-              window.innerWidth <= 415 ? showHamburgerMenu(!hamburger) : null
+              window.innerWidth <= minimumWindowSize
+                ? showHamburgerMenu(!hamburger)
+                : null
             }
           >
             <Link to="/blog">
@@ -67,7 +78,9 @@ function Navbar() {
           <li
             className={hamburger ? "noMargin" : "navbarGap"}
             onClick={() =>
-              window.innerWidth <= 415 ? showHamburgerMenu(!hamburger) : null
+              window.innerWidth <= minimumWindowSize
+                ? showHamburgerMenu(!hamburger)
+                : null
             }
           >
             {isAuthenticated ? (
