@@ -1,18 +1,62 @@
-.homeGrid{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: calc(100% / 3);
-    height: 100%;
-    transition: background-color 1s;
+.homeGrid {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  transition: background-color 1s;
+  background-color: #444;
+  padding: 160px;
+  /* margin: 30px; */
 }
 
-.homeGrid:hover{
-    background-color: darkgray;
+.homeGrid:hover {
+  background-color: darkgray;
 }
 
-.flexContainer{
-    display: flex;
-    flex-direction: row;
-    height: 100%;
+a.homePageLinks > div > h1 {
+  color: white;
+}
+
+a.homePageLinks:hover {
+  text-decoration: none;
+}
+
+.welcome {
+  width: 100%;
+  height: 50vh;
+
+  background: url("https://images.wallpapersden.com/image/download/japan-tokyo-shinagawa-station_17026_2560x1440.jpg")
+    no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+
+  z-index: -1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.welcome > h1 {
+  color: white;
+}
+
+.cover {
+  max-width: 100%;
+  max-height: 70%;
+}
+
+.gridItems {
+  margin: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 30px;
+}
+
+@media (max-width: 415px) {
+  .gridItems {
+    margin: 0;
+    margin-top: 40px;
+  }
 }

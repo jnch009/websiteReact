@@ -1,10 +1,39 @@
-.profileStyling{
-    height: 100%;
-    padding: 10em;
+.profileStyling {
+  height: 100%;
+  padding: 10em;
 }
 
-.profilePic{
-    height: 400px;
-    width: 400px;
-    border-radius: 25em;
+.profilePic {
+  height: 400px;
+  width: 400px;
+  border-radius: 25em;
+}
+
+.pageContainerProfile {
+  margin-top: 8vh;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.pageContainerProfile > button {
+  width: 250px;
+  margin: 1rem;
+}
+
+.pageContainerProfile > .collapse {
+  margin-bottom: 2rem;
+}
+
+.usersTable {
+  display: flex;
+  justify-content: center;
+}
+
+.usersTable > .table {
+  width: 50%;
+}
+
+.currentUserRow {
+  background-color: yellow;
 }

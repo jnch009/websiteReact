@@ -15,7 +15,7 @@ router.get(
     scope: "openid email profile"
   }),
   function(req, res) {
-    res.redirect("/");
+    res.redirect("http://localhost:3000/");
   }
 );
 
@@ -32,6 +32,7 @@ router.get("/callback", function(req, res, next) {
       if (err) {
         return next(err);
       }
+      //const returnTo = req.session.returnTo;
       const returnTo = req.session.returnTo;
       delete req.session.returnTo;
       res.redirect(returnTo || "http://localhost:3000/");
@@ -43,11 +44,7 @@ router.get("/callback", function(req, res, next) {
 router.get("/logout", (req, res) => {
   req.logout();
 
-  var returnTo = req.protocol + "://" + req.hostname;
-  var port = req.connection.localPort;
-  if (port !== undefined && port !== 80 && port !== 443) {
-    returnTo += ":" + port;
-  }
+  var returnTo = "http://localhost:3000/";
   var logoutURL = new url.URL(
     util.format("https://%s/v2/logout", process.env.AUTH0_DOMAIN)
   );

@@ -1,193 +1,221 @@
-var express = require("express");
-var bodyParser = require("body-parser");
-var cors = require("cors");
-// let jwt = require("jsonwebtoken");
-// let config = require("./config");
-// let middleware = require("./middleware");
-var mysql = require("mysql");
-var path = require("path");
-var passport = require("passport");
-var Auth0Strategy = require("passport-auth0");
+var express = require('express');
+var cors = require('cors');
+let jwt = require('jsonwebtoken');
+var querystring = require('querystring');
+var https = require('https');
+var mysql = require('mysql');
+var path = require('path');
+const dotEnvPath = path.resolve(process.cwd(), 'credentials.env');
+const jwksRsa = require('jwks-rsa');
+
+var app = express();
+require('dotenv').config({ path: dotEnvPath });
+
 var con = mysql.createConnection({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
   password: process.env.DB_PASS,
   database: process.env.DB_SCHEMA,
-  port: process.env.DB_PORT
+  port: process.env.DB_PORT,
 });
-const dotEnvPath = path.resolve(process.cwd(), "credentials.env");
 
-// class HandlerGenerator {
-//     login (req, res) {
-//       let username = req.body.username;
-//       let password = req.body.password;
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+app.use(cors());
 
-//       con.query('SELECT * FROM Users WHERE Username = ? && Password = ?',[username,password], function (err, tup) {
-//             if (err){
-//                 res.send(400).json({
-//                     success: false,
-//                     message: 'Authentication failed! Please check the request'
-//                   });
-//             }
-//             if (JSON.stringify(tup) == "[]"){
-//                 res.send(403).json({
-//                     success: false,
-//                     message: 'Incorrect username or password'
-//                 });
-//             } else {
-//                 let token = jwt.sign({username: username},
-//                     config.secret,
-//                     { expiresIn: '24h' // expires in 24 hours
-//                     }
-//                   );
-//                   // return the JWT token for the future API calls
-//                   res.json({
-//                     success: true,
-//                     message: 'Authentication successful!',
-//                     token: token
-//                   });
-//             }
-//       });
-//     }
+con.connect();
 
-//     index (req, res) {
-//       console.log(req.decoded);
-//       res.json({
-//         success: true,
-//         message: 'Index page'
-//       });
-//     }
-//   }
+// Define middleware that validates incoming bearer tokens
+// using JWKS from jnch009.auth0.com
+const verifyJWT = (req, res, next) => {
+  let kid = jwt.decode(req.jwtDecode, { complete: true })['header']['kid'];
+  let signingKeys = jwksRsa({
+    jwksUri: `https://${process.env.AUTH0_DOMAIN}/.well-known/jwks.json`,
+  });
 
-function main() {
-  var app = express();
-  var session = require("express-session");
-  var randomSecret = require("randomstring");
-  var dotenv = require("dotenv").config({ path: dotEnvPath });
+  signingKeys.getSigningKey(kid, (err, key) => {
+    // possiblity that the key can return undefined
+    const signingKey = key.getPublicKey();
+    jwt.verify(
+      req.jwtDecode,
+      signingKey,
+      {
+        audience: process.env.AUDIENCE,
+        issuer: `https://${process.env.AUTH0_DOMAIN}/`,
+        algorithms: ['RS256'],
+      },
+      (err, decoded) => {
+        if (err) {
+          res.status(401).send(err);
+        } else {
+          next();
+        }
+      },
+    );
+  });
+};
 
-  var sess = {
-    secret: randomSecret.generate(),
-    cookie: {},
-    resave: false,
-    saveUninitialized: true
+let getAccessToken = (req, res, next) => {
+  var postData = querystring.stringify({
+    grant_type: 'client_credentials',
+    client_id: process.env.AUTH0_CLIENT_ID,
+    client_secret: process.env.AUTH0_CLIENT_SECRET,
+    audience: process.env.AUDIENCE,
+  });
+
+  var options = {
+    method: 'POST',
+    hostname: 'jnch009.auth0.com',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Content-Length': Buffer.byteLength(postData),
+    },
+    path: '/oauth/token',
   };
 
-  if (app.get("env") === "production") {
-    // Use secure cookies in production (requires SSL/TLS)
-    sess.cookie.secure = true;
+  let resulting = https.request(options, res => {
+    let data = '';
 
-    // Uncomment the line below if your application is behind a proxy (like on Heroku)
-    // or if you're encountering the error message:
-    // "Unable to verify authorization request state"
-    // app.set('trust proxy', 1);
-  }
+    res.on('data', function (body) {
+      data += body;
+    });
 
-  app.use(bodyParser.json());
-  app.use(bodyParser.urlencoded({ extended: true }));
-  app.use(
-    cors({
-      origin: "http://localhost:3000",
-      credentials: true
-    })
-  );
-  app.use(session(sess));
+    res.on('end', () => {
+      let jwtObj = JSON.parse(data);
+      req.jwtDecode = jwtObj['access_token'];
+      resulting.end();
+      next();
+    });
+  });
 
-  // Configure Passport to use Auth0
-  var strategy = new Auth0Strategy(
-    {
-      domain: process.env.AUTH0_DOMAIN,
-      clientID: process.env.AUTH0_CLIENT_ID,
-      clientSecret: process.env.AUTH0_CLIENT_SECRET,
-      callbackURL: process.env.AUTH0_CALLBACK_URL || 'http://localhost:3001/callback'
+  resulting.on('error', e => {
+    console.error(e);
+  });
+
+  // Why am I doing this?
+  // Because I need to write to the buffer that was created in Content - Length
+  resulting.write(postData);
+  resulting.end();
+};
+
+app.get('/', (req, res) => res.json('root route'));
+
+//Get all users
+app.get('/getUsers', getAccessToken, verifyJWT, (req, res) => {
+  const options = {
+    hostname: 'jnch009.auth0.com',
+    headers: {
+      Authorization: `Bearer ${req.jwtDecode}`,
     },
-    function(accessToken, refreshToken, extraParams, profile, done) {
-      // accessToken is the token to call Auth0 API (not needed in the most cases)
-      // extraParams.id_token has the JSON Web Token
-      // profile has all the information from the user
-      return done(null, profile);
-    }
+    path: '/api/v2/users',
+  };
+  let resulting = https.request(options, result => {
+    let data = '';
+    result.on('data', body => {
+      data += body;
+    });
+
+    result.on('end', () => {
+      res.json(JSON.parse(data));
+    });
+  });
+
+  resulting.on('error', e => {
+    console.error(e);
+  });
+
+  resulting.end();
+});
+
+//Get a specific user
+app.get('/getUsers/:id', getAccessToken, (req, res) => {
+  const options = {
+    hostname: 'jnch009.auth0.com',
+    headers: {
+      Authorization: `Bearer ${req.jwtDecode['access_token']}`,
+    },
+    path: '/api/v2/users/' + req.params.id,
+  };
+
+  let resulting = https.request(options, result => {
+    result.setEncoding('utf8');
+    result.on('data', function (body) {
+      req.User = JSON.parse(body);
+    });
+
+    result.on('end', () => {
+      res.json({ user: req.User });
+    });
+  });
+
+  resulting.end();
+});
+
+let qString = 'SELECT * FROM Projects';
+app.get('/projects', (req, res) => {
+  con.query(qString, function (err, tup, fields) {
+    if (err) throw err;
+    res.json(tup);
+  });
+});
+
+app.get('/projects/:id', (req, res) => {
+  con.query(
+    'SELECT * FROM Projects WHERE Id = ?',
+    [req.params.id],
+    (err, tup, fields) => {
+      if (err) throw err;
+
+      const project = tup.map(t => {
+        return { title: t.Title, author: t.Author };
+      });
+
+      res.json(project);
+    },
   );
+});
 
-  passport.use(strategy);
+app.post('/projects/add', (req, res) => {
+  let {
+    title,
+    startDate,
+    endDate,
+    description,
+    author,
+    course,
+    job,
+  } = req.body;
+  con.query(
+    'INSERT INTO Projects(Title,StartDate,EndDate,Description,Author,Course,Job) VALUES(?,?,?,?,?,?,?)',
+    [title, startDate, endDate, description, author, course, job],
+    (err, results) => {
+      if (err) throw err;
+      res.status(200).end();
+    },
+  );
+});
 
-  app.use(passport.initialize());
-  app.use(passport.session());
-
-  // You can use this section to keep a smaller payload
-  passport.serializeUser(function(user, done) {
-    done(null, user);
+//main();
+if (app.get('env') !== 'test') {
+  app.listen(process.env.PORT || 3000, () => {
+    console.log(`Listening on port ${process.env.PORT || 3000}`);
   });
-
-  passport.deserializeUser(function(user, done) {
-    done(null, user);
-  });
-
-  app.listen(3001, () => {
-    console.log("Server running on port 3001");
-  });
-
-  var userInViews = require("./lib/middleware/userInViews");
-  var authRouter = require("./routes/auth");
-  var usersRouter = require("./routes/users");
-  app.use(userInViews());
-  app.use("/", authRouter);
-  app.use("/", usersRouter);
-  // con.connect();
-
-  // // let handlers = new HandlerGenerator();
-  // // app.post('/login', handlers.login);
-  // // app.get('/',middleware.checkToken,handlers.index);
-
-  // var qString = "SELECT * FROM Projects";
-  // app.get("/projects", (req, res) => {
-  //   con.query(qString, function(err, tup, fields) {
-  //     if (err) throw err;
-  //     res.json(tup);
-  //   });
-  // });
-
-  // app.get("/projects/:id", (req, res) => {
-  //   con.query("SELECT * FROM Projects WHERE Id = ?", [req.params.id], function(
-  //     err,
-  //     tup,
-  //     fields
-  //   ) {
-  //     if (err) throw err;
-
-  //     const project = tup.map(t => {
-  //       return { title: t.Title, author: t.Author };
-  //     });
-
-  //     res.json(project);
-  //   });
-  // });
-
-  // app.post("/projects/add", (req, res) => {
-  //   var postData = req.body;
-  //   con.query(
-  //     "INSERT INTO Projects SET ?",
-  //     postData,
-  //     (error, results, fields) => {
-  //       if (error) throw error;
-  //       res.end(JSON.stringify(results));
-  //     }
-  //   );
-  // });
-
-  // app.get("/user/:uid/pass/:pwd", (req, res) => {
-  //   con.query(
-  //     "SELECT * FROM Users WHERE Username = ? && Password = ?",
-  //     [req.params.uid, req.params.pwd],
-  //     function(err, tup, fields) {
-  //       if (err) throw error;
-  //       if (JSON.stringify(tup) != "[]") {
-  //         res.json(true);
-  //       } else {
-  //         res.json(false);
-  //       }
-  //     }
-  //   );
-  // });
 }
 
-main();
+module.exports = {
+  app: app,
+  getAccessToken: getAccessToken,
+};
+
+// Most likely will not need this, but just practicing
+// app.post("/setAccessToken", getAccessToken, (req, res) => {
+//   let params = req.body.uid;
+//   let { access_token } = req.jwtDecode;
+//   let qString = "INSERT INTO users(uid,access_token) VALUES(?,?)";
+//   let query = con.query(qString, [params, access_token], error => {
+//     if (error) {
+//       return error;
+//     }
+//   });
+//   res.status(200).end();
+// });

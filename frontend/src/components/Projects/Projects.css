@@ -1,0 +1,11 @@
+.pageContainerProjects {
+  display: flex;
+  height: inherit;
+  flex-direction: column;
+  margin-top: 10vh;
+}
+
+.icon-container {
+  display: flex;
+  justify-content: space-evenly;
+}

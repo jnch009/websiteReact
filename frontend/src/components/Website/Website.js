@@ -1,62 +1,92 @@
-import React from "react";
-import { Link, Route, BrowserRouter as Router, Switch } from "react-router-dom";
-import { Breadcrumb, BreadcrumbItem, Button, ButtonGroup } from "shards-react";
+import _ from "lodash";
+import React, { useEffect, useState } from "react";
+import { Link, Route, Router, Switch } from "react-router-dom";
 
+import { useAuth0 } from "../../react-auth0-spa";
+import history from "../../utils/history";
 import About from "../About/About";
-import Blog from "../Blog";
+import Blog from "../Blog/Blog";
 import Home from "../Home/Home.js";
+import Navbar from "../Navbar/Navbar";
+import PrivateRoute from "../PrivateRoute";
 import Profile from "../Profile/Profile.js";
-import Projects from "../Projects"
+import Projects from "../Projects/Projects";
 
 import "./Website.css";
 
-function Website() {
-  return (
-    <div className="pageContainer">
-      <Router>
-        <Breadcrumb>
-          <div className="flex_1">
-            <BreadcrumbItem>
-              <Link to="/">Home</Link>
-            </BreadcrumbItem>
-            <BreadcrumbItem>
-              <Link to="/about">About</Link>
-            </BreadcrumbItem>
-            <BreadcrumbItem>
-              <Link to="/projects">Accomplishments</Link>
-            </BreadcrumbItem>
-            <BreadcrumbItem>
-              <Link to="/blog">Blog</Link>
-            </BreadcrumbItem>
-          </div>
-          <div className="flex_2"></div>
-          <BreadcrumbItem>
-            <a href="http://localhost:3001/login">Login</a>
-          </BreadcrumbItem>
-          <hr />
-        </Breadcrumb>
+const classNames = require("classnames");
 
+function Website() {
+  const { loginWithRedirect, logout, user, isAuthenticated } = useAuth0();
+  const [allUsers, setAllUsers] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [currentUser, setCurrentUser] = useState();
+
+  useEffect(() => {
+    const getUsers = async () => {
+      await fetch("http://localhost:3001/getUsers")
+        .then((res) => {
+          return res.json();
+        })
+        .then((data) => {
+          return JSON.stringify(data);
+        })
+        .then((jsonStr) => {
+          setAllUsers(JSON.parse(jsonStr));
+          setLoading(false);
+        });
+    };
+    getUsers();
+  }, [loading]);
+
+  if (loading) {
+    return (
+      <div className={classNames("loadingIndicator", "pageContainer")}>
+        <i class="fas fa-sync fa-spin spinner-size"></i>
+      </div>
+    );
+  }
+
+  if (isAuthenticated && currentUser === undefined) {
+    allUsers.map((serverUser) => {
+      if (serverUser?.user_id === user?.sub) {
+        setCurrentUser(serverUser);
+      }
+    });
+  }
+
+  return (
+    <div className="App">
+      <Router history={history}>
+        <Navbar />
         <Switch>
-          <Route path="/about">
-            <About />
-          </Route>
-          <Route path="/projects">
-            <Projects />
-          </Route>
-          <Route path="/blog">
-            <Blog />
-          </Route>
-          <Route path="/profile">
-            <Profile />
-          </Route>
-          <Route path="/">
-            <Home />
-          </Route>
+          <Route path="/about" component={About} />
+          {/* https://tylermcginnis.com/react-router-pass-props-to-components/ */}
+          <Route
+            path="/projects"
+            render={(props) => (
+              <Projects {...props} currentUser={currentUser} />
+            )}
+          />
+          <Route path="/blog" component={Blog} />
+          <PrivateRoute
+            path="/profile"
+            render={(props) => (
+              <Profile
+                {...props}
+                currentUser={currentUser}
+                allUsers={allUsers}
+                loadPage={setLoading}
+              />
+            )}
+          />
+          <Route path="/login" component={() => loginWithRedirect({})} />
+          <Route path="/logout" component={() => logout({})} />
+          <Route path="/" component={Home} />
         </Switch>
       </Router>
     </div>
   );
 }
-// transition: <property> <duration> <timing-function> <delay>;
 
 export default Website;
