@@ -197,8 +197,8 @@ app.post('/projects/add', (req, res) => {
 
 //main();
 if (app.get('env') !== 'test') {
-  app.listen(3001, () => {
-    console.log('Server running on port 3001');
+  app.listen(process.env.PORT || 3000, () => {
+    console.log(`Listening on port ${process.env.PORT || 3000}`);
   });
 }
 
