@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Card, CardBody, CardFooter, CardHeader } from "shards-react";
+import { Button, Card, CardContent, CardHeader, CardActions } from "@mui/material";
 
 class Projects extends React.Component {
   constructor(props) {
@@ -90,15 +90,15 @@ class Projects extends React.Component {
                 <br />
                 {project.StartDate} ― {project.EndDate}
               </CardHeader>
-              <CardBody>
+              <CardContent>
                 {project.Description.split("\\n").map(x => (
                   <div>
                     {x}
                     <br />
                   </div>
                 ))}
-              </CardBody>
-              <CardFooter>{project.Author}</CardFooter>
+              </CardContent>
+              <CardActions>{project.Author}</CardActions>
             </Card>
           </div>
         ))}

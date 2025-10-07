@@ -1,11 +1,11 @@
 import React from "react";
-import { Link, Route, BrowserRouter as Router, Switch } from "react-router-dom";
-import { Breadcrumb, BreadcrumbItem, Button, ButtonGroup } from "shards-react";
+import { Link, Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import { Breadcrumbs, Link as BreadcrumbItem } from "@mui/material";
 
 import About from "../About/About";
 import Blog from "../Blog";
-import Home from "../Home/Home.js";
-import Profile from "../Profile/Profile.js";
+import Home from "../Home/Home.jsx";
+import Profile from "../Profile/Profile.jsx";
 import Projects from "../Projects"
 
 import "./Website.css";
@@ -14,7 +14,7 @@ function Website() {
   return (
     <div className="pageContainer">
       <Router>
-        <Breadcrumb>
+        <Breadcrumbs>
           <div className="flex_1">
             <BreadcrumbItem>
               <Link to="/">Home</Link>
@@ -34,25 +34,15 @@ function Website() {
             <a href="http://localhost:3001/login">Login</a>
           </BreadcrumbItem>
           <hr />
-        </Breadcrumb>
+        </Breadcrumbs>
 
-        <Switch>
-          <Route path="/about">
-            <About />
-          </Route>
-          <Route path="/projects">
-            <Projects />
-          </Route>
-          <Route path="/blog">
-            <Blog />
-          </Route>
-          <Route path="/profile">
-            <Profile />
-          </Route>
-          <Route path="/">
-            <Home />
-          </Route>
-        </Switch>
+        <Routes>
+          <Route path="/about" element={<About />} />
+          <Route path="/projects" element={<Projects />} />
+          <Route path="/blog" element={<Blog />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/" element={<Home />} />
+        </Routes>
       </Router>
     </div>
   );

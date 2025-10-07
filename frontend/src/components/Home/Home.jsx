@@ -1,13 +1,11 @@
-import React from "react";
-
+import shortid from "shortid";
 import "./Home.css";
 
 function Home() {
-  const sID = require("shortid");
   const gridLabels = ['About', 'Tekken 7', 'Blog'];
   const gridItems = [];
   for (let lbl of gridLabels) {
-    gridItems.push(<div className="homeGrid" key={sID.generate()}><h1>{lbl}</h1></div>);
+    gridItems.push(<div className="homeGrid" key={shortid.generate()}><h1>{lbl}</h1></div>);
   }
 
   return <div className="flexContainer">{gridItems}</div>;
